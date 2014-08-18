@@ -1,0 +1,87 @@
+> .libPaths("~/cubfitsLocal/")
+> .libPaths()
+[1] "/home/lbrown/cubfitsLocal"     "/usr/local/lib/R/site-library"
+[3] "/usr/lib/R/site-library"       "/usr/lib/R/library"
+> find.package(cubfits)
+Error in find.package(cubfits) : object 'cubfits' not found
+> find.package("cubfits")
+[1] "/home/lbrown/cubfitsLocal/cubfits"
+> library(cubfits)
+> demo(roc.train, 'cubfits')
+
+
+        demo(roc.train)
+        ---- ~~~~~~~~~
+
+> start.time <- proc.time()
+
+> suppressMessages(library(cubfits, quietly = TRUE))
+
+> set.seed(1234)
+
+> .CF.AC$renew.iter <- 3
+
+> # .CF.CT$type.p <- "lognormal_bias"
+> # .CF.CONF$scale.phi.Obs <- FALSE
+> # .CF.CONF$estimate.bias.Phi <- TRUE
+>  ex.train$phi.Obs <- ex.train$phi.Obs / mean(ex.train$phi.Obs)
+
+> ret.time <- system.time({
++   ret <- cubfits(ex.train$reu13.df, ex.train$phi.Obs, ex.train$y, ex.train$n,
++                  nIter = 20,
++                  verbose = TRUE, report = 5,
++                  model = "roc", adaptive = "simple")
++ })
+pid:             56149
+start:           Tue Aug 12 13:29:00 2014
+iter: 5          Tue Aug 12 13:29:00 2014
+iter: 10         Tue Aug 12 13:29:00 2014
+iter: 15         Tue Aug 12 13:29:00 2014
+iter: 20         Tue Aug 12 13:29:00 2014
+iter: 25         Tue Aug 12 13:29:00 2014
+iter: 30         Tue Aug 12 13:29:00 2014
+iter: 35         Tue Aug 12 13:29:00 2014
+iter: 40         Tue Aug 12 13:29:00 2014
+iter: 45         Tue Aug 12 13:29:00 2014
+iter: 50         Tue Aug 12 13:29:00 2014
+iter: 55         Tue Aug 12 13:29:00 2014
+iter: 60         Tue Aug 12 13:29:00 2014
+iter: 65         Tue Aug 12 13:29:00 2014
+iter: 70         Tue Aug 12 13:29:00 2014
+iter: 75         Tue Aug 12 13:29:00 2014
+iter: 80         Tue Aug 12 13:29:00 2014
+iter: 85         Tue Aug 12 13:29:00 2014
+iter: 90         Tue Aug 12 13:29:00 2014
+iter: 95         Tue Aug 12 13:29:00 2014
+iter: 100        Tue Aug 12 13:29:00 2014
+           user.self sys.self elapsed user.child sys.child
+total.time   0.29200    8e-03 0.29900          0         0
+avg.time     0.00292    8e-05 0.00299          0         0
+iter: 105        Tue Aug 12 13:29:00 2014
+iter: 110        Tue Aug 12 13:29:00 2014
+iter: 115        Tue Aug 12 13:29:00 2014
+iter: 120        Tue Aug 12 13:29:00 2014
+
+> print(ret.time)
+   user  system elapsed
+  0.816   0.028   0.935
+
+> x <- rowMeans(do.call("cbind", ret$phi.Mat)[, 11:20])
+
+> y <- ex.train$phi.Obs
+
+> x <- log10(x / mean(x))
+
+> y <- log10(y / mean(y))
+
+> print(mean(x))
+[1] -0.4369554
+
+> print(summary(lm(y ~ x))$r.squared)
+[1] 0.8932789
+
+> # warning: iterations terminated because half-step sizes are very small
+>
+> print(proc.time() - start.time)
+   user  system elapsed
+  0.864   0.028   0.986

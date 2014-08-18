@@ -1,0 +1,137 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+
+\usepackage{ulem}
+\newcommand\NoIndent[1]{%
+  \par\vbox{\parbox[t]{\linewidth}{#1}}%
+}
+
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+%%% END Article customizations
+
+
+\usepackage{verbatim}
+\usepackage{amsmath}
+
+
+
+
+
+
+\title{Work Log for August}
+\author{Logan Brown}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+%\maketitle
+%\tableofcontents
+%\newpage
+
+
+%%%NEW DAY%%%
+\setcounter{section}{10}
+\setcounter{subsection}{-1}
+\setcounter{subsubsection}{0}
+
+\section{August 11th}
+\subsection{Goals}
+\begin{enumerate}
+
+\item Install \LaTeX
+\item Local CUBFits Installation
+\item Preliminary Understanding of
+\begin{itemize}
+
+\item Sella and Hirch paper~~~- link biology and statistical mechanics concepts
+\item GenomeGroup paper~~~- fit the model knowing the expression levels
+\item Wallace et al. paper?~~~- MCMC stuff
+\item Murray et al. paper?~~~- framework
+
+\end{itemize}
+\end{enumerate}
+
+\subsection{Progress/Notes}
+
+\subsubsection{\LaTeX~installation}
+
+Began a \LaTeX~installation on Tremont, installed to the home directory. It should be usable on every computer.
+
+I ran a full installation, which may have been a mistake. It took at least 7 hours, it was still installing when I left.
+
+\subsubsection{Local CUBFits Installation}
+
+I locally installed CUBFits, as well as the prerequisites (seqinr, VGAM, doSNOW,  coda, EMCluster) to my home directory.
+
+\begin{enumerate}
+\item R
+\item .libPaths{``{\raise.17ex\hbox{$\scriptstyle\sim$}}/cubfitsLocal"}~~~~\#add local installation to library path
+\item library(cubfits)~~~~\#load the cubfits library
+\item demo(roc.train, 'cubfits')
+\end{enumerate}
+
+Doing so fixes the problem of "acceptance not in range", but introduces a new problem, "iterations terminated because half-step sizes are very small". It seems that cubfits-master is installed on Gauley, but cubfits 0.1 fixes some of those problems.
+
+\verbatiminput{gauleyerror.txt}
+
+\subsubsection{Readings}
+First read of the Stella and Hirch paper. It helped develop my intuitions regarding CUBFits/SEMPRR, though it seems to be only tangentially related. It's good for drawing these connections, which will help with understanding and analyzing the code (indirectly)
+
+\subsection{Future Goals}
+\begin{enumerate}
+\item Test \LaTeX~installation
+\item Continue Readings
+\item Continue analysing Gauley errors?
+\end{enumerate}
+%%%END OF DAY%%%
+
+\end{document}

@@ -1,0 +1,251 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+
+\usepackage{ulem}
+\newcommand\NoIndent[1]{%
+  \par\vbox{\parbox[t]{\linewidth}{#1}}%
+}
+
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+%%% END Article customizations
+
+
+\usepackage{verbatim}
+\usepackage{amsmath}
+
+
+\title{Work Log for August}
+\author{Logan Brown}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+%\maketitle
+%\tableofcontents
+%\newpage
+
+%%%NEW DAY%%%
+
+\setcounter{section}{14}
+\setcounter{subsection}{-1}
+\setcounter{subsubsection}{0}
+
+\section{August 15th}
+\subsection{Goals for the day}
+\textit{Goals from Last Time}
+\begin{enumerate}
+\item \textit{Continue analyzing cubfits-master/R files, especially mycubappr.r}
+
+\begin{enumerate}
+\item \textit{Especially study the MCMC from mycubappr.r 124-196}
+\item \textit{nu.Phi and sigma.Phi?}
+\end{enumerate}
+
+\item \textit{Read REU Paper on Nonsense Model}
+
+~
+
+\NoIndent{Additional Goals}
+%\item Understand (2) and (3)
+
+
+\end{enumerate}
+
+
+\subsection{Progress/Notes}
+
+\subsubsection{Continue analyzing cubfits-master/R files, especially mycubappr.r}
+
+I want to analyze the MCMC that happens in my.cubappr.r, which is only about 50 lines of code in my.cubappr.r, but it expands more.
+
+This function calls my.drawBConditionalAll... but that function is gotten from .cubfitsEnv. It could be .current, .random, or .RW\_Norm. Only .random uses VGAM, so that's relevant. I can't tell from my.cubfitsappr.r or roc.appr.r which is being called. The best next step is to probably put in print statements for each of these splits and see which is called.
+
+my.drawPhiConditionalAll is from .cubfitsEnv as well, but it looks like there is only one .drawPhiConditionalAll. Will put in a print statement just to double check.
+
+Understanding the workflow is key to understanding the code.
+
+
+\subsubsection{Read REU Paper on Nonsense Model}
+Equation 2 needed explanation.
+
+$$\eta(\vec{c}) =
+\frac{\sum_{i=1}^{n+1}\beta_{i-1} p_i \sigma_{i-1}}
+{\sigma_n}$$
+
+\noindent Where
+
+$\beta_i = $ cost of a codon $ = a_1 + a_2i$
+
+$p_i = $ probability of an error at codon $i$
+
+$\sigma_i = $ probablity of succesfulling reaching codon $i$ = $\prod_{j=1}^{i}(1-p_j)$
+
+We peel off the $n^{th}$ term.
+
+$$\eta(\vec{c}) =
+\beta_n + 
+\frac{\sum_{i=1}^{n}
+\beta_{i-1}
+p_i
+\sigma_{i-1}}
+{\sigma_n}
+$$
+
+
+
+Substitute $\sigma$
+
+$$\eta(\vec{c}) =
+\beta_{n} +
+\sum_{i=1}^{n}
+\beta_{i-1}
+p_i
+\frac{\prod_{k=1}^{i-1}1-p_i}
+{\prod_{k=1}^{n}1-p_k}
+$$
+
+
+Divide out the $\prod$ term
+
+$$\eta(\vec{c}) =
+\beta_{n} +
+\sum_{i=1}^{n}
+\beta_{i-1}
+p_i
+\frac{1}
+{\prod_{k=i}^{n}1-p_k}
+$$
+
+
+
+$$\eta(\vec{c}) =
+\beta_{n} +
+\sum_{i=1}^{n}
+\beta_{i-1}
+\frac{p_i}{1-p_i}
+\prod_{k=i+1}^{n}\frac{1}
+{1-p_k}
+$$
+
+A simplification on the $\prod$
+
+$$\eta(\vec{c}) =
+\beta_{n} +
+\sum_{i=1}^{n}
+\beta_{i-1}
+\frac{p_i}{1-p_i}
+\prod_{k=i+1}^{n}\frac{1-p_k + p_k}
+{1-p_k}
+$$
+
+
+$$\eta(\vec{c}) =
+\beta_{n} +
+\sum_{i=1}^{n}
+\beta_{i-1}
+\frac{p_i}{1-p_i}
+\prod_{k=i+1}^{n}(1 + \frac{p_k}
+{1-p_k})
+$$
+
+The version in the REU paper, expanding $\beta$
+
+$$\eta(\vec{c}) =
+a_1 + a_2n + 
+\sum_{i=1}^{n}
+(a_1 + a_2(i-1))
+\frac{p_i}{1-p_i}
+\prod_{k=i+1}^{n}(1 + \frac{p_k}
+{1-p_k})
+$$
+
+Easy to read version using $\beta_i = a_1 + a_2i$ and $\omega_i = \frac{p_i}{1-p_k}$
+
+$$\eta(\vec{c}) =
+\beta_{n} +
+\sum_{i=1}^{n}
+\beta_{i-1}
+\omega_i
+\prod_{k=i+1}^{n}(1 + \omega_k)
+$$
+
+
+Take the first order taylor approximation, about $p_i=0$, then apply that to the fitness function ((1) in the paper), and we get the main function
+
+$$Pr(\vec{c} | \phi)
+\propto
+\prod_{i=1}^{n}
+\text{exp}[ \text{ln} \mu_i +
+\omega_i(a_1 + a_2)y_1 +
+\omega_i a_2 y_1 i]$$
+
+
+The rest of the paper has their results, which might be important to look at, in the future. For now, the important part is to understand how the equations work, and then how the code works.
+
+
+\subsection{Future Goals}
+\begin{enumerate}
+\item Analyze my.cubappr.r
+\begin{enumerate}
+\item Add in print statements, then rerun the example
+\item my.drawBConditionalAll.??????
+\end{enumerate}
+
+\item (Optional) Study R user manual more?
+\end{enumerate}
+
+
+%%%END OF DAY%%%
+
+
+\end{document}
+

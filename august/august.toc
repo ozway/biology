@@ -1,0 +1,22 @@
+\contentsline {section}{\numberline {11}August 11th}{2}
+\contentsline {subsection}{\numberline {11.1}Goals}{2}
+\contentsline {subsection}{\numberline {11.2}Progress/Notes}{2}
+\contentsline {subsubsection}{\numberline {11.2.1}\LaTeX \nobreakspace {}installation}{2}
+\contentsline {subsubsection}{\numberline {11.2.2}Local CUBFits Installation}{2}
+\contentsline {subsubsection}{\numberline {11.2.3}Readings}{4}
+\contentsline {subsection}{\numberline {11.3}Future Goals}{5}
+\contentsline {section}{\numberline {13}August 13th}{6}
+\contentsline {subsection}{\numberline {13.1}Goals for the day}{6}
+\contentsline {subsection}{\numberline {13.2}Progress/Notes}{6}
+\contentsline {subsubsection}{\numberline {13.2.1}Test \LaTeX \nobreakspace {}installation}{6}
+\contentsline {subsubsection}{\numberline {13.2.2}Readings}{6}
+\contentsline {subsubsection}{\numberline {13.2.3}Gauley Errors}{6}
+\contentsline {subsubsection}{\numberline {13.2.4}Code Examination}{6}
+\contentsline {subsubsection}{\numberline {13.2.5}Tremont Errors?}{7}
+\contentsline {subsection}{\numberline {13.3}Future Goals}{7}
+\contentsline {section}{\numberline {15}August 15th}{7}
+\contentsline {subsection}{\numberline {15.1}Goals for the day}{7}
+\contentsline {subsection}{\numberline {15.2}Progress/Notes}{8}
+\contentsline {subsubsection}{\numberline {15.2.1}Continue analyzing cubfits-master/R files, especially mycubappr.r}{8}
+\contentsline {subsubsection}{\numberline {15.2.2}Read REU Paper on Nonsense Model}{8}
+\contentsline {subsection}{\numberline {15.3}Future Goals}{9}

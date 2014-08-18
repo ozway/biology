@@ -1,0 +1,94 @@
+> demo(roc.train, 'cubfits', ask=F, echo=F)
+pid:		 28737 
+start:		 Wed Aug 13 14:36:58 2014 
+- b: rbind(curr.scale, curr.accept)
+                 [,1]      [,2]      [,3]
+curr.scale  1.0000000 1.0000000 1.0000000
+curr.accept 0.3333333 0.6666667 0.6666667
+iter: 5 	 Wed Aug 13 14:36:58 2014 
+- b: rbind(curr.scale, curr.accept)
+            [,1]      [,2] [,3]
+curr.scale   1.2 1.2000000  1.2
+curr.accept  0.0 0.3333333  0.0
+- b: rbind(curr.scale, curr.accept)
+            [,1]      [,2]      [,3]
+curr.scale  0.96 1.4400000 0.9600000
+curr.accept 0.00 0.3333333 0.3333333
+- var.name: b
+    scale bound reached #: lower = 0, upper = 0
+    ill acceptance #: none = 1, all = 0
+    acceptance NOT in range #: lower = 1, upper = 2, total = 3
+- var.name: p
+    scale bound reached #: lower = 0, upper = 0
+    ill acceptance #: none = 0, all = 0
+    acceptance NOT in range #: lower = 0, upper = 1, total = 1
+- var.name: phi
+    scale bound reached #: lower = 0, upper = 0
+    ill acceptance #: none = 0, all = 6
+    acceptance NOT in range #: lower = 9, upper = 91, total = 100
+iter: 10 	 Wed Aug 13 14:36:58 2014 
+- b: rbind(curr.scale, curr.accept)
+                 [,1]  [,2]      [,3]
+curr.scale  0.7680000 1.728 1.1520000
+curr.accept 0.3333333 1.000 0.6666667
+- var.name: b
+    scale bound reached #: lower = 0, upper = 0
+    ill acceptance #: none = 0, all = 0
+    acceptance NOT in range #: lower = 0, upper = 3, total = 3
+- var.name: p
+    scale bound reached #: lower = 0, upper = 0
+    ill acceptance #: none = 0, all = 0
+    acceptance NOT in range #: lower = 0, upper = 1, total = 1
+- var.name: phi
+    scale bound reached #: lower = 0, upper = 0
+    ill acceptance #: none = 1, all = 1
+    acceptance NOT in range #: lower = 18, upper = 82, total = 100
+- b: rbind(curr.scale, curr.accept)
+                 [,1]      [,2]   [,3]
+curr.scale  0.9216000 2.0736000 1.3824
+curr.accept 0.3333333 0.6666667 0.0000
+- var.name: b
+    scale bound reached #: lower = 0, upper = 0
+    ill acceptance #: none = 0, all = 0
+    acceptance NOT in range #: lower = 1, upper = 2, total = 3
+- var.name: p
+    scale bound reached #: lower = 0, upper = 0
+    ill acceptance #: none = 0, all = 0
+    acceptance NOT in range #: lower = 0, upper = 1, total = 1
+- var.name: phi
+    scale bound reached #: lower = 0, upper = 0
+    ill acceptance #: none = 1, all = 1
+    acceptance NOT in range #: lower = 15, upper = 85, total = 100
+iter: 15 	 Wed Aug 13 14:36:58 2014 
+- b: rbind(curr.scale, curr.accept)
+               [,1]    [,2]      [,3]
+curr.scale  1.10592 2.48832 1.1059200
+curr.accept 0.00000 0.00000 0.3333333
+- var.name: b
+    scale bound reached #: lower = 0, upper = 0
+    ill acceptance #: none = 0, all = 0
+    acceptance NOT in range #: lower = 2, upper = 1, total = 3
+- var.name: p
+    scale bound reached #: lower = 0, upper = 0
+    ill acceptance #: none = 0, all = 0
+    acceptance NOT in range #: lower = 0, upper = 1, total = 1
+- var.name: phi
+    scale bound reached #: lower = 0, upper = 0
+    ill acceptance #: none = 2, all = 1
+    acceptance NOT in range #: lower = 25, upper = 75, total = 100
+iter: 20 	 Wed Aug 13 14:36:58 2014 
+- var.name: b
+    ill acceptance #: none = 2, all = 0
+    last renew NOT in range #: lower = 2, upper = 1, total = 3
+- var.name: p
+    ill acceptance #: none = 0, all = 0
+    last renew NOT in range #: lower = 0, upper = 1, total = 1
+- var.name: phi
+    ill acceptance #: none = 25, all = 9
+    last renew NOT in range #: lower = 25, upper = 75, total = 100
+   user  system elapsed 
+  0.568   0.008   0.584 
+[1] -0.4041223
+[1] 0.7783212
+   user  system elapsed 
+  0.876   0.016   0.902 
