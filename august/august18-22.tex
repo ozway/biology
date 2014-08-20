@@ -77,25 +77,49 @@
 %\tableofcontents
 
 
-\setcounter{section}{00} %week number minus 1
+\setcounter{section}{02} %week number minus 1
 \setcounter{subsection}{-1}
 \setcounter{subsubsection}{0}
 
-\section{Week of August XXth-YYth}
+\section{Week of August 18th-22nd}
 \subsection{Goals for the Week}
+\subsubsection{Set up GitHub}
+Username: ozway
+I've forked cubfits and added a worklog directory.
 \begin{enumerate}
-
+\item cd ~/worklog
+\item git commit -a
+\item git push
 \end{enumerate}
 
-\subsection{Progress / Notes}
-%%% 	writeGoals could be helpful	%%%
+\subsubsection{Read Gilchrist 2014}
+See full notes in august18.tex or august18.pdf
 
-\subsubsection{}
+Does this contain any information about the code structure? I don't see any description of what B is, or it's purposes. Unless B is $\beta$?
 
+\subsubsection{Various Latex changes}
+I've added a weekly summary, and automated some of the process.
+
+\subsubsection{Look at REU Results}
+
+
+\subsubsection{Workflow Tracker (like Doxygen) for R?}
+\subsubsection{Study data structures in R user Manual}
+list() may be interesting.
+
+\subsubsection{study my.cubappr.r}
+Broken down all the values of the variables (for the test case), which was illuminating. The values were obscured by initialization functions that were hard to access. Full details are in august22.tex or august22.pdf
+
+I'm now breaking down the workings of the MCMC, the most important part of the code (and the best opening for parallelization)
+
+It's notable that the differences between the (possibly defunct) NSE demo and the working ROC demo is just changing the value of model [1].
 
 \subsection{Goals for next Week}
 \begin{enumerate}
-\item Future Goal
+\item Finish analyzing cubappr.r (especially the MCMC after line 158)
+\item Look at the consequences if model is "nsef" instead of "roc"
+\item REU Results
+\item Data Structures in the R manual (list?)
 \end{enumerate}
 
 
