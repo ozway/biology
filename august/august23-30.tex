@@ -77,25 +77,48 @@
 %\tableofcontents
 
 
-\setcounter{section}{0} %week number minus 1
+\setcounter{section}{03} %week number minus 1
 \setcounter{subsection}{-1}
 \setcounter{subsubsection}{0}
 
-\section{Week of August XXth-XXth}
+\section{Week of August 23rd-30th}
 \subsection{Goals for the Week}
 \begin{enumerate}
-
+\item Finish analyzing cubappr.r (especially the MCMC after line 158)
+\item Look at the consequences if model is "nsef" instead of "roc"
+\item REU Results
+\item Data Structures in the R manual (list?)
+\item \textbf{Liz Howell Code}
 \end{enumerate}
 
 \subsection{Progress / Notes}
-%%% 	writeGoals could be helpful	%%%
 
-\subsubsection{}
+\subsubsection{Finish analyzing cubappr.r (especially the MCMC after line 158)}
+
+\subsubsection{Look at the consequences if model is "nsef" instead of "roc"}
+
+\subsubsection{REU Results}
+
+\subsubsection{Data Structures in the R manual (list?)}
+
+\subsubsection{Liz Howell Code}
+``\textit{The code I mentioned to Liz Howell that I need you to write is very simple. Ideally it would be in a language that is more common than R, but the world is not ideal and I think doing it in R would be best for now.}
+
+\textit{The code would take a observed DNA sequence for an given protein and output a pessimal (worst) and optimal sequence based on the delta eta values produced by cubfits.  The pessimal sequence would use the codons with the longest pausing times (largest delta eta) and the optimal would use the codons with the shortest pausing times.}
+
+\textit{Note that in the current code, the table produced is always relative to the codon with the shortest pausing time, but if I would recommend not assuming that is always the case.  That is used min() and max() functions to ID the codons rather than ==0 and max().}
+
+\textit{To summarize, the code will take in a FASTA file with one or more genes and a delta eta file produced by cubfits.  The output will be a FASTA file with the pessimal versions of the genes and a second FASTA file with the optimal versions of the genes.produce up to two output.}"
+
+
+The code seems approachable. I can use basic.r to set up the reu13.df and phi.df data structures. The problem is, I need phi.obs, which is unclear. I'm going to try phi.df[,1].
+
+COMPUTERS WENT DOWN.
+
 
 
 \subsection{Goals for next Week}
-\begin{enumerate}
-\item Future Goal
+\begin{enumerate}\item Future Goal
 \end{enumerate}
 
 
