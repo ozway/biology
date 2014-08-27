@@ -136,13 +136,16 @@ Error in .cubfitsEnv$my.stop(paste("mean(phi.Obs) =", mean(phi.Obs))) :
 
 paste("mean(phi.Obs) =", mean(phi.Obs))) runs just fine, so it seems like an error with my.stop
 
+R/my.stop.r has the problem. It has different versions of the function depending on whether it is parallel or mclapply, etc.
+
 \subsubsection{FIXING GAULEY}
 \begin{enumerate}
-\item Slow Login
+item Slow Login
 \item Cannot input password at login screen
 \item slow tab completion and non-commands
 \end{enumerate}
 
+shutdown failed, had to do a hard shutdown by holding the power button. Then booting up failed, it got hung on "checking disks".
 
 \subsection{Goals for next Week}
 \begin{enumerate}\item Future Goal
