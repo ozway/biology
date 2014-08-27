@@ -115,6 +115,33 @@ The code seems approachable. I can use basic.r to set up the reu13.df and phi.df
 
 COMPUTERS WENT DOWN.
 
+seq.data <- read.seq(get.expath("seqi\_200.fasta"))\\
+phi.df <- read.phi.df(get.expath("phi\_200.tsv"))\\
+aa.names <- c("A", "C", "D")\\
+seq.string <- convert.seq.data.to.string(seq.data)\\
+reu13.df <- gen.reu13.df(seq.string, phi.df, aa.names)\\
+reu13.list.new <- gen.reu13.list(seq.string, aa.names)\\
+y <- gen.y(seq.string, aa.names)\\
+n <- gen.n(seq.string, aa.names)\\
+scuo <- gen.scuo(seq.string, aa.names) \\
+phi.obs = phi.df[,2]
+
+All except the last one came from demo/basic.r
+
+The last one is added by me.
+
+
+Last Error
+Error in .cubfitsEnv$my.stop(paste("mean(phi.Obs) =", mean(phi.Obs))) : 
+
+paste("mean(phi.Obs) =", mean(phi.Obs))) runs just fine, so it seems like an error with my.stop
+
+\subsubsection{FIXING GAULEY}
+\begin{enumerate}
+\item Slow Login
+\item Cannot input password at login screen
+\item slow tab completion and non-commands
+\end{enumerate}
 
 
 \subsection{Goals for next Week}
