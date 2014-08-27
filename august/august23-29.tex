@@ -1,0 +1,125 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+
+\usepackage{ulem}
+\newcommand\NoIndent[1]{%
+  \par\vbox{\parbox[t]{\linewidth}{#1}}%
+}
+
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+%%% END Article customizations
+
+
+\usepackage{verbatim}
+\usepackage{amsmath}
+
+
+
+
+
+
+\title{Work Log for August}
+\author{Logan Brown}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+\maketitle
+%\tableofcontents
+
+
+\setcounter{section}{03} %week number minus 1
+\setcounter{subsection}{-1}
+\setcounter{subsubsection}{0}
+
+\section{Week of August 23rd-30th}
+\subsection{Goals for the Week}
+\begin{enumerate}
+\item Finish analyzing cubappr.r (especially the MCMC after line 158)
+\item Look at the consequences if model is "nsef" instead of "roc"
+\item REU Results
+\item Data Structures in the R manual (list?)
+\item \textbf{Liz Howell Code}
+\end{enumerate}
+
+\subsection{Progress / Notes}
+
+\subsubsection{Finish analyzing cubappr.r (especially the MCMC after line 158)}
+
+\subsubsection{Look at the consequences if model is "nsef" instead of "roc"}
+
+\subsubsection{REU Results}
+
+\subsubsection{Data Structures in the R manual (list?)}
+
+\subsubsection{Liz Howell Code}
+``\textit{The code I mentioned to Liz Howell that I need you to write is very simple. Ideally it would be in a language that is more common than R, but the world is not ideal and I think doing it in R would be best for now.}
+
+\textit{The code would take a observed DNA sequence for an given protein and output a pessimal (worst) and optimal sequence based on the delta eta values produced by cubfits.  The pessimal sequence would use the codons with the longest pausing times (largest delta eta) and the optimal would use the codons with the shortest pausing times.}
+
+\textit{Note that in the current code, the table produced is always relative to the codon with the shortest pausing time, but if I would recommend not assuming that is always the case.  That is used min() and max() functions to ID the codons rather than ==0 and max().}
+
+\textit{To summarize, the code will take in a FASTA file with one or more genes and a delta eta file produced by cubfits.  The output will be a FASTA file with the pessimal versions of the genes and a second FASTA file with the optimal versions of the genes.produce up to two output.}"
+
+
+The code seems approachable. I can use basic.r to set up the reu13.df and phi.df data structures. The problem is, I need phi.obs, which is unclear. I'm going to try phi.df[,1].
+
+COMPUTERS WENT DOWN.
+
+
+
+\subsection{Goals for next Week}
+\begin{enumerate}\item Future Goal
+\end{enumerate}
+
+
+\end{document} %End of day document, REMOVE
