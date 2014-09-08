@@ -1,0 +1,151 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+
+\usepackage{ulem}
+\newcommand\NoIndent[1]{%
+  \par\vbox{\parbox[t]{\linewidth}{#1}}%
+}
+
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+%%% END Article customizations
+
+
+\usepackage{verbatim}
+\usepackage{amsmath}
+
+
+
+
+
+
+\title{Work Log for September}
+\author{Logan Brown}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+\maketitle
+%\tableofcontents
+
+
+\setcounter{section}{1} %week number minus 1
+\setcounter{subsection}{-1}
+\setcounter{subsubsection}{0}
+
+\section{Week of September 8th-15th}
+\subsection{Goals for the Week}
+%Paste output from writeGoals
+
+\begin{enumerate}
+\item NSE Model
+
+\end{enumerate}
+
+\subsection{Progress/Notes}
+
+\subsubsection{NSE Model -- run using workflow.sh}
+These are the changes I've made to cubfits/misc to try and run the NSE model. (run\_nsef.r is just a copied version of run\_roc.r with the following exceptions)
+\begin{itemize}
+\item In run\_nsef.r, changed model=``roc" to model=``nsef" in cubsinglechain and cubmultichain for both "cubfits" and "cubappr"
+\item In run\_nsef.r, added .CF.CT\$model $<$- "nsef"; before each each call of cubsinglechain and cubmultichain
+\item In run\_utility.r, changed get.logL $<$- function(ret, data, model="roc") to get.logL $<$- function(ret, data, model="nsef")
+\item Changed workflow.r from 
+\begin{itemize}
+\item Rscript run\_roc.r -c \$cubmethod -s "0.5 1 2 4" -f \$genome -p \$empphi -o \$folder -n \$foutname -i \$pinit $>>$ \$logfile \& 
+
+to
+
+\item Rscript run\_nsef.r -c \$cubmethod -s "0.5 1 2 4" -f \$genome -p \$empphi -o \$folder -n \$foutname -i \$pinit $>>$ \$logfile \&
+\end{itemize}
+\end{itemize}
+
+I also changed to cubsinglechain instead of cubmultichain, to try and simplify matters, but then the MCMC started throwing "acceptance out of range" at every step of the iteration. Started at 10:44, ran until 11:44. 
+
+I'll retry with cubmultichain. I had run a multichain version on 9/5, and it just stalled. However, I just added run\_utility.r change
+
+Latest settings that worked!
+\\n.samples = 10  
+\\use.n.samples = 10
+\\n.chains = 4
+\\n.cores = 4
+\\min.samples=50
+\\max.samples=100
+
+\verbatiminput{data/sep8.nse.100samples.log}
+
+\subsubsection{NSE Model -- debug}
+
+Ran the contents of cubfits/demo/nsef.train.r in an R interactive session, adding in the line debugonce(cubfits)
+
+
+\subsubsection{Optimal/Pessimal Code}
+
+Cedric made the change that had been discussed, where we switch from $\Delta t$ values to $\Delta\eta$
+
+In making that change, I also made several more changes.
+
+\begin{itemize}
+\item fixed a bug where the default codon for Q was wrong
+\item Changed from analyzing $\Delta t$ to $\Delta\eta$ values. Made a mock up etaValues.bmat for example by just inverting the signs of the values
+\item made the language more clear for "optimal/best" versus "minimum/maximum"
+\item added a count and ratio for how many codons are actually being up/downgraded
+\end{itemize}
+
+
+
+\subsection{Goals for next Week}
+\begin{enumerate}
+\item Future Goal
+\end{enumerate}
+
+
+\end{document} %End of day document, REMOVE
