@@ -84,24 +84,74 @@
 \section{Week of September 1st-5th}
 \subsection{Goals for the Week}
 \begin{enumerate}
-\item Connect codons with delta eta values
+\item Connect codons with $\Delta$eta values
 \item Liz Howell Code
 \item Further readings in the R user manual
+\item NSE Model
 \end{enumerate}
 
 \subsection{Progress/Notes}
 
 \subsubsection{Connect codons with delta eta values}
+I made a change to run\_roc.r, line 314. I changed
+
+\noindent mean.b.mat $<$- cbind(bmat.names, mean.b.mat, sd.b.mat)
+
+	to
+	
+\noindent mean.b.mat $<$- cbind(names(results\$chains[[1]]\$b.Mat[[1]]), mean.b.mat, sd.b.mat)
+
+bmat.names is just the synonym group of the codon. names(results\$chains[[1]]\$b.Mat[[1]]) is of the format aminoacid.codon.value (for example A.GCC.log.mu or H.CAC.Delta.t where log.mu represents the natural log of the mutation rate and Delta.t represents the change in the pausing times (compared to some reference codon). This information gets written to 
+
+A note on the reference codon: Cedric claimed the one with the shortest pausing time was the reference codon, I've found it's the last one alphabetically.
+
+
 
 \subsubsection{Liz Howell Code}
+The code seems to be done. It can be checked out from github at
+
+https://github.com/ozway/optimal-pessimal.git
+
+It takes in a gene (by default, named "ecoli.fasta"), and can write the optimal or pessimal version(s) of the genome using makeOptimal.r, makePessimal.r, or makeBoth.r. The optimal is written to optimalEcoli.fasta, and the pessimal is written to pessimalEcoli.fasta. writeOptimal and writePessimal takes about 5 minutes and 49 seconds to run on the ecoli gene. writeBoth takes about 7 minutes and 45 seconds to run on the ecoli gene, likely due to the increased file writing.
+
+~
+
+\noindent Future Considerations:
+\begin{enumerate}
+\item \sout(Add a config.r file for setting global variables like input filenames and output filenames) Done
+\item Calculate the total amount of time gained or lost in the changes
+\item Do we need to switch from ROC to $\eta$?
+\item Try for other genes?
+\end{enumerate}
+
+I've also written up readme instructions for how to execute the code.
+
 
 \subsubsection{Further readings in the R user manual}
+In order to write the Liz Howell code, I had to do more readings into the R user manual. I read deeply into, and played around with
+\begin{itemize}
+\item Matrices
+\item Lists
+\item String Manipulation
+\item the [] and [[]] operators
+\item for and while loops
+\end{itemize}
 
+\subsubsection{NSE Model}
+Following Wei-Chen's instructions, I attempted to run a cubfits NSE model.
+\begin{enumerate}
+\item Change the cubmultichain and cubsinglechain calls on lines 188, 195, 205, 212, changing model=``roc" to model=``nsef"
+\item Before each of those lines, add .CF.CT\$model $<$- ``nsef";
+\end{enumerate}
+And then running it as normal.
+
+
+9/5: I started the model at at 9:02. After generating very little output, it ended at 12:38. It parsed all the inputs and such, but generated no results.
 
 
 \subsection{Goals for next Week}
 \begin{enumerate}
-\item Future Goal
+\item NSE Model
 \end{enumerate}
 
 
