@@ -122,9 +122,22 @@ Latest settings that worked!
 
 \verbatiminput{data/sep8.nse.100samples.log}
 
+
+I was able to repeat these results using 1000 samples, (minimum of 500 samples), though it stopped after 500 samples. The Gelman score was 1.10581040617552. For brevity, the 500 sample log is not included in this pdf, but it is in the github.
+
+
+\subsubsection{Larger NSE Model}
+
+Ran from 17:22 to 19:12, then ended with no error messages. "Timing stopped at"
+
+Is it possible that the model is OVERconverging? I had it doing 500 samples between checks, and it should succeed at doing 500 samples...
+
+
 \subsubsection{NSE Model -- debug}
 
 Ran the contents of cubfits/demo/nsef.train.r in an R interactive session, adding in the line debugonce(cubfits)
+
+As far as I can tell, the cubfits() function itself doesn't actually use the model or .CF.CT\$model, I'll need ot look at drawP and drawPhi.
 
 
 \subsubsection{Optimal/Pessimal Code}

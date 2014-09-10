@@ -1,0 +1,67 @@
+===================================================================================
+================================ START HEADER =====================================
+===================================================================================
+Function call:
+Rscript run_roc.r -c cubfits -s 0.5 1 2 4 -f ../data/ecoli_K12_MG1655_genome_filtered.fasta -p ../data/ecoli_X_obs.csv -o ../results/conv_test/ -n with_xobs_multichain_lapply_4cores -i wxobs_pinit.csv
+
+MCMC parameters:
+Number of samples between checks: 10 
+Min samples: 50 
+Max samples: 100 
+Reset QR until: 0 samples
+Thining: store every 10 iteration as sample
+Swap 0 % of b matrix
+Swap b matrix if L1-norm is < 0 
+
+Simulation parameters
+Number of Cores 4 
+Number of Chains: 4 
+Parallel mode within chain: lapply 
+Samples used: 10 
+First 0  AAs removed from sequence
+Sequences with less than 0 AAs ignored
+List of AAs taken into account:
+	A C D E F G H I K L M N P Q R S T V W Y Z
+
+Convergence criteria
+Convergence test: Gelman & Rubin
+Convergence criterium: Gelman Score < 0.15 
+Use every 1 sample for convergence test
+
+===================================================================================
+================================= END HEADER ======================================
+===================================================================================
+
+
+started at: 2014-09-08 13:56:25 
+using cubfits 
+reading sequences from file ../data/ecoli_K12_MG1655_genome_filtered.fasta 
+reading gene expression measurements (Xobs) from file
+ ../data/ecoli_X_obs.csv 
+and compare to ORF list from FASTA file
+ ../data/ecoli_K12_MG1655_genome_filtered.fasta 
+generating list of codon position in ORFs for each AA...
+generating list of number of AA occurences per ORF...
+generating list of codon counts per ORF...
+generate initial phi using SCUO with sd(ln(phi)) values
+	- 0.5 
+	- 1 
+	- 2 
+	- 4 
+running cubfits using cubmultichain 
+	 with seeds: 68072 35014 78804 49768
+	4 slaves are spawned successfully. 0 failed.
+Gelman score after sample: 11	5.24608844491114	 test was performed on 6 samples
+Gelman score after sample: 21	4.43002963732354	 test was performed on 10 samples
+Gelman score after sample: 31	4.15615605401198	 test was performed on 16 samples
+Gelman score after sample: 41	4.00798122092697	 test was performed on 20 samples
+Gelman score after sample: 51	3.87651221427067	 test was performed on 26 samples
+Gelman score after sample: 61	3.76115242256423	 test was performed on 30 samples
+Gelman score after sample: 71	3.68585493775202	 test was performed on 36 samples
+Gelman score after sample: 81	3.61050525774646	 test was performed on 40 samples
+Gelman score after sample: 91	3.52149378911106	 test was performed on 46 samples
+Gelman score after sample: 101	3.43585418976874	 test was performed on 50 samples
+Elapsed time for 4 chains doing  iterations on 4 cores was 30.2 min
+process results...
+saving results...
+finished at: 2014-09-08 14:28:03 
