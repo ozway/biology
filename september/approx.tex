@@ -71,12 +71,27 @@
 %s/1+\\frac{p_{j}}{1-p_{j}}/1+\\frac{p_{j}}{1-p_{j}}/g
 
 
+First order approx is
+$$f(0) + f'(0)*(p_{ic}-0)
+%% p_{ic} * f'(0) %%
+= p_{ic}\left(
+\left[\sum_{k=1}^{i} a_1 + a_2(k-1)\right]
+\left[\prod_{j=i+1}^{n}(\frac{1}{1-p_{j}})\right]
+\right)
+$$
+
+Where
+
 $p_{ic}$ is the probability of a nonsense error at position $i$ using codon $c$
+
+$p_j$ is the probability of a nonsense error at position $j$ (using any codon)
 
 $$f(p_{ic})=
 \left[\sum_{k=1}^{i} a_1 + a_2(k-1)\right]
 \left[\frac{p_{ic}}{1-p_{ic}}\right]
 \left[\prod_{j=i+1}^{n}(\frac{1}{1-p_{j}})\right]$$
+
+So
 
 $$
 f(0)=
