@@ -71,7 +71,7 @@
 %s/1+\\frac{p_{j}}{1-p_{j}}/1+\\frac{p_{j}}{1-p_{j}}/g
 
 
-First order approx is
+First order approximation about $p_{ic} = 0$ is
 $$f(0) + f'(0)*(p_{ic}-0)
 %% p_{ic} * f'(0) %%
 = p_{ic}\left(
@@ -91,7 +91,7 @@ $$f(p_{ic})=
 \left[\frac{p_{ic}}{1-p_{ic}}\right]
 \left[\prod_{j=i+1}^{n}(\frac{1}{1-p_{j}})\right]$$
 
-So
+So...
 
 $$
 f(0)=
@@ -139,7 +139,7 @@ $$=
 {(1-p_{ic})^2}\right]
 $$
 
-So
+So...
 
 $$f'(0)=
 \left[\sum_{k=1}^{i} a_1 + a_2(k-1)\right]
@@ -194,7 +194,7 @@ $$f''(p_{ic})=
 \right]
 $$
 
-So
+So...
 
 $$f''(0)=
 \left[\sum_{k=1}^{i} a_1 + a_2(k-1)\right]
@@ -210,6 +210,117 @@ $$=
 \left[\prod_{j=i+1}^{n}(\frac{1}{1-p_{j}})\right]
 $$
 
+
+%%% Begin Other Option %%%
+
+\newpage
+
+
+Based on what we've talked about with the math, it may be possible that Mike meant to assume $p_{i+1} \approx p_{i+2} \approx \cdots \approx p_{n}$. This feels a little questionable. They are all sufficiently close to 0, but approximating them all at once is suspect. For the first codon in a gene of length 400, $p_j$ incorporates as many as $3^{399}$ different values.
+
+Regardless, here is the approximation. To keep in the spirit of $p_{j} \neq p_{j+1}$, I will not simplify $\left[\prod_{j=i+1}^{n}(\frac{1}{1-p_{j}})\right]$ to $\frac{1}{(1-p_{j})^{n-(i+1)}}$, though the calculation actually comes out the same either way.
+
+The final result, the approximation about $p_{i+1}, \cdots, p_n \approx 0$ is
+
+$$
+f(p_j) \approx
+\left[\sum_{k=1}^{i} a_1 + a_2(k-1)\right]
+\left[\frac{p_{ic}}{1-p_{ic}}\right]
++
+\left( (i+1) - n \right)
+\left[\sum_{k=1}^{i} a_1 + a_2(k-1)\right]
+\left[\frac{p_{ic}}{1-p_{ic}}\right]
+\left( p_{j} \right)
+$$
+
+
+$$
+f(p_j) \approx
+f(0) + (f(0))(p_j)((i+1)-n)
+$$
+
+I'm concerned about that last $p_j$ term that is added to the first order term. What is that? We approximated around $p_{i+1} \approx p_{i+2} \approx \cdots \approx p_n$
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{1pt}} 
+
+
+$$
+f(p_{j})=
+\left[\sum_{k=1}^{i} a_1 + a_2(k-1)\right]
+\left[\frac{p_{ic}}{1-p_{ic}}\right]
+\left[\prod_{j=i+1}^{n}(\frac{1}{1-p_{j}})\right]
+$$
+
+So...
+
+$$
+f(0) = 
+\left[\sum_{k=1}^{i} a_1 + a_2(k-1)\right]
+\left[\frac{p_{ic}}{1-p_{ic}}\right]
+\left[\prod_{j=i+1}^{n}(\frac{1}{1-0})\right]
+$$
+
+$$
+f(0) = 
+\left[\sum_{k=1}^{i} a_1 + a_2(k-1)\right]
+\left[\frac{p_{ic}}{1-p_{ic}}\right]
+$$
+
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{1pt}} 
+
+
+$$
+f'(p_{j})=\frac{\delta}{\delta p_{j}}
+\left(
+\left[\sum_{k=1}^{i} a_1 + a_2(k-1)\right]
+\left[\frac{p_{ic}}{1-p_{ic}}\right]
+\left[\prod_{j=i+1}^{n}(\frac{1}{1-p_{j}})\right]
+\right)
+$$
+
+Which I'm going to restate for simplicity as 
+
+$$
+f'(p_{j})=
+\left( f(0) \right)
+\frac{\delta}{\delta p_{j}}
+\left(\prod_{j=i+1}^{n}\frac{1}{1-p_{j}}\right)
+$$
+
+
+$$
+f'(p_{j})=
+\left( f(0) \right)
+\left( \sum_{j=i+1}^{n} \frac{-1}{(1-p_{j})^2} \right)
+\left( \prod_{j=i+1, j \neq i}^{n} \frac{1}{1-p_{j}}\right)
+$$
+
+So...
+
+$$
+f'(0)=
+\left( f(0) \right)
+\left( \sum_{j=i+1}^{n} \frac{-1}{(1-0)^2} \right)
+\left( \prod_{j=i+1, j \neq i}^{n} \frac{1}{1-0}\right)
+$$
+
+
+$$
+f'(0)=
+\left( f(0) \right)
+\left( \sum_{j=i+1}^{n} \frac{-1}{(1-0)^2} \right)
+\left( \prod_{j=i+1, j \neq i}^{n} \frac{1}{1-0}\right)
+$$
+
+$$
+f'(0)=
+\left( f(0) \right)
+\left( (i+1) - n \right)
+=\left( (i+1) - n \right)
+\left[\sum_{k=1}^{i} a_1 + a_2(k-1)\right]
+\left[\frac{p_{ic}}{1-p_{ic}}\right]
+$$
 
 
 \end{document}
