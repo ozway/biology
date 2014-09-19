@@ -1,0 +1,15 @@
+- var.name: p
+    scale bound reached #: lower = 0, upper = 0
+    ill acceptance #: none = 0, all = 0
+    acceptance NOT in range #: lower = 0, upper = 0, total = 0
+- var.name: phi.pred
+    scale bound reached #: lower = 0, upper = 0
+    ill acceptance #: none = 0, all = 0
+    acceptance NOT in range #: lower = 664, upper = 720, total = 1384
+[1] "ALERT ALERT ALERT lpProp has NaN!"
+Error in phi.New[accept] <- prop$phi.Prop[accept] : 
+  NAs are not allowed in subscripted assignments
+Calls: system.time ... do.call -> <Anonymous> -> my.drawPhiConditionalAllPred
+In addition: There were 50 or more warnings (use warnings() to see the first 50)
+Timing stopped at: 3434.911 12.498 3448.359 
+Execution halted

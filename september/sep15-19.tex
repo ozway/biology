@@ -142,7 +142,10 @@ Continuing iteratively...
 \end{align*}
 
 \subsubsection{Potentially look at the c files in cubfits/cubfits/src}
-They still look like they aren't doing anything.
+They take up the majority of the time (see the profiling below)
+
+lp\_c\_raw
+
 
 \subsubsection{Investigate WeiChen NSE crash}
 \begin{itemize}
@@ -176,19 +179,32 @@ Here's my biggest concern.
 
 
 my.logdmultinomCodOne.roc has three lines that my.logdmultinomCodOne.nsef does not
-  lp.c.raw <- yaa * lp.vec
-  lp.c.raw[is.nan(lp.c.raw)] <- NA
-  lp.c.raw <- rowSums(yaa * lp.vec, na.rm = TRUE)
+  lp.c.raw $<$- yaa * lp.vec
+  lp.c.raw[is.nan(lp.c.raw)] $<$- NA
+  lp.c.raw $<$- rowSums(yaa * lp.vec, na.rm = TRUE)
 
-my.drawPhiConditionalAllPred calls my.logPosteriorAllPred.lognormal, which calls my.logdmultinomCodOne.nsef, which does not have the stated lines. Without those lines, if lpProp - lpCurr - prop\$lir becomes NaN (log of a negative value, most likely), it would not pass any errors until the line that actually complains, accept <- u < exp(logAcceptProb).
+my.drawPhiConditionalAllPred calls my.logPosteriorAllPred.lognormal, which calls my.logdmultinomCodOne.nsef, which does not have the stated lines. Without those lines, if lpProp - lpCurr - prop\$lir becomes NaN (log of a negative value, most likely), it would not pass any errors until the line that actually complains, accept $<$- u $<$ exp(logAcceptProb).
 
 However logAcceptProb is lpProp - lpCurr - prop\$lir
 
 My best hypothesis is that lpProp (proposed phi values from the Posterior distribution) has some NaN values.
 
 
+CONFIRMED, 
+
+\verbatiminput{data/sep19.nse.lpPropisNaN.tail}
+
+lpProp is coming up with NaN. I suspect that negative phi values are being proposed, and $ln(-x)$ is NaN, and $e^{NaN}$ is NaN, etc, etc, etc, NAs are not allowed in subscripted assignments.
+
+I'll add browser() lines to my.logdmultinomCodOne.r and see what happens. I also removed the \& from the end of the line to be sure the browser command will work.
 
 
+~
+
+
+Probably don't need to be considered, but left here for completeness
+
+~\\
 my.objectivePhiOne.Lfp.r\\
 my.objectivePhiOne.nlogL.r\\
 my.objectivePhiOne.nlogphiL.r\\
@@ -221,12 +237,26 @@ Run Rprof() before any code you want to profile, and Rprof(NULL) after the code,
 Added Rprof() to the beginning of run\_roc.r and Rprof(NULL) to the end of run\_roc.r, then ran using ./workflow as usual.
 
 These are the functions that took up more than 1\% of the time on their own.
-\verbatiminput{data/ROCprofile1percent}
+\verbatiminput{data/ROC_Profile1percent}
 
-\includegraphics{data/ROCprofile}
-\includegraphics{data/ROCprofilexplode}
+\includegraphics{data/ROC_Profile}
+\includegraphics{data/ROC_Profilexplode}
 
-.Call is only seen in the 
+.Call is only seen in two places\\
+.Call("invmlogit"... in my.inverse.mlogit.r\\
+.Call("lp\_c\_raw"... in my.logdmultinomCodOne.r
+
+It's the function that calls the C code from the R code. The C code, apparently, is doing the bulk of the work.
+
+
+\subsubsection{Profile the NSE model if possible}
+
+I ran an incomplete run of the NSE model, crashing in the usual place, but profiled it.
+
+\verbatiminput{data/NSE_IncompleteProfile1percent}
+
+\includegraphics{data/NSE_IncompleteProfile}
+\includegraphics{data/NSE_IncompleteProfilexplode}
 
 
 
@@ -238,7 +268,9 @@ These are the functions that took up more than 1\% of the time on their own.
 
 \subsection{Goals for next Week}
 \begin{enumerate}
-\item Future Goal
+\item Write out the math from 9/19 (from the green notebook)
+\item Run NSE model with the Browser line when $phi$ is proposed to see what is causing NaN
+\item Ideally, an NSE patch to fix it (try NaN to NA?)
 \end{enumerate}
 
 

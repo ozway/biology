@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.8.11)  19 SEP 2014 10:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.8.11)  19 SEP 2014 17:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -625,29 +625,24 @@ Overfull \hbox (164.8527pt too wide) in paragraph at lines 103--104
 [1
 
 {/home/lbrown/LaTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 149.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 152.
 
 
 (/home/lbrown/LaTeX/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 149.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 152.
  [2]
 File: data/sep15.SimYeastNSE.error.txt  (verbatim)
 
-Overfull \hbox (24.39528pt too wide) in paragraph at lines 158--158
+Overfull \hbox (24.39528pt too wide) in paragraph at lines 161--161
 []\OT1/cmtt/m/n/10.95 Calls: system.time ... do.call -> <Anonymous> -> my.drawP
 hiConditionalAllPred[] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 165--166
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 170--171
+Underfull \hbox (badness 10000) in paragraph at lines 168--169
 
  []
 
@@ -657,78 +652,119 @@ Underfull \hbox (badness 10000) in paragraph at lines 173--174
  []
 
 
-Overfull \hbox (4.69064pt too wide) in paragraph at lines 183--184
-\OT1/cmr/m/n/10.95 not pass any er-rors un-til the line that ac-tu-ally com-pla
-ins, ac-cept <- u < exp(logAcceptProb). 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 192--200
+Underfull \hbox (badness 10000) in paragraph at lines 176--177
 
  []
 
+File: data/sep19.nse.lpPropisNaN.tail  (verbatim)
 [3]
-Overfull \hbox (26.56638pt too wide) in paragraph at lines 207--208
+Overfull \hbox (24.39528pt too wide) in paragraph at lines 195--195
+[]\OT1/cmtt/m/n/10.95 Calls: system.time ... do.call -> <Anonymous> -> my.drawP
+hiConditionalAllPred[] 
+ []
+
+
+Overfull \hbox (41.64134pt too wide) in paragraph at lines 195--195
+[]\OT1/cmtt/m/n/10.95 In addition: There were 50 or more warnings (use warnings
+() to see the first 50)[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 207--216
+
+ []
+
+
+Overfull \hbox (26.56638pt too wide) in paragraph at lines 224--225
 []\OT1/cmr/m/n/10.95 install.package("[][][][][][][].tar.gz", lib ="place to in
 -stall to", re-pos = NULL, type="source") 
  []
 
-
-Overfull \hbox (0.4647pt too wide) in paragraph at lines 219--220
+[4]
+Overfull \hbox (0.4647pt too wide) in paragraph at lines 237--238
 []\OT1/cmr/m/n/10.95 Added Rprof() to the be-gin-ning of run[]roc.r and Rprof(N
 ULL) to the end of run[]roc.r,
  []
 
-File: data/ROCprofile1percent  (verbatim)
-<data/ROCprofile.png, id=24, 456.20438pt x 255.95625pt>
-File: data/ROCprofile.png Graphic file (type png)
+File: data/ROC_Profile1percent  (verbatim)
+<data/ROC_Profile.png, id=27, 456.20438pt x 255.95625pt>
+File: data/ROC_Profile.png Graphic file (type png)
 
-<use data/ROCprofile.png>
-Package pdftex.def Info: data/ROCprofile.png used on input line 224.
+<use data/ROC_Profile.png>
+Package pdftex.def Info: data/ROC_Profile.png used on input line 242.
 (pdftex.def)             Requested size: 456.20325pt x 255.95561pt.
 
-<data/ROCprofilexplode.png, id=25, 455.45157pt x 255.95625pt>
-File: data/ROCprofilexplode.png Graphic file (type png)
+<data/ROC_Profilexplode.png, id=28, 455.45157pt x 255.95625pt>
+File: data/ROC_Profilexplode.png Graphic file (type png)
 
-<use data/ROCprofilexplode.png>
-Package pdftex.def Info: data/ROCprofilexplode.png used on input line 225.
+<use data/ROC_Profilexplode.png>
+Package pdftex.def Info: data/ROC_Profilexplode.png used on input line 243.
 (pdftex.def)             Requested size: 455.45045pt x 255.95561pt.
 
-Overfull \hbox (54.94957pt too wide) in paragraph at lines 224--226
+Overfull \hbox (54.94957pt too wide) in paragraph at lines 242--244
 [][]
  []
 
 
-Overfull \hbox (37.19678pt too wide) in paragraph at lines 224--226
+Overfull \hbox (37.19678pt too wide) in paragraph at lines 242--244
 [] 
  []
 
-[4] [5 <./data/ROCprofile.png (PNG copy)> <./data/ROCprofilexplode.png (PNG cop
-y)>] [6] (./sep15-19.aux) ) 
+[5 <./data/ROC_Profile.png (PNG copy)>]
+File: data/NSE_IncompleteProfile1percent  (verbatim)
+
+<data/NSE_IncompleteProfile.png, id=32, 455.45157pt x 255.95625pt>
+File: data/NSE_IncompleteProfile.png Graphic file (type png)
+
+<use data/NSE_IncompleteProfile.png>
+Package pdftex.def Info: data/NSE_IncompleteProfile.png used on input line 258.
+
+(pdftex.def)             Requested size: 455.45045pt x 255.95561pt.
+
+<data/NSE_IncompleteProfilexplode.png, id=33, 455.45157pt x 255.95625pt>
+File: data/NSE_IncompleteProfilexplode.png Graphic file (type png)
+
+<use data/NSE_IncompleteProfilexplode.png>
+Package pdftex.def Info: data/NSE_IncompleteProfilexplode.png used on input lin
+e 259.
+(pdftex.def)             Requested size: 455.45045pt x 255.95561pt.
+
+Overfull \hbox (54.19678pt too wide) in paragraph at lines 258--260
+[][]
+ []
+
+
+Overfull \hbox (37.19678pt too wide) in paragraph at lines 258--260
+[] 
+ []
+
+[6 <./data/ROC_Profilexplode.png (PNG copy)>] [7 <./data/NSE_IncompleteProfile.
+png (PNG copy)> <./data/NSE_IncompleteProfilexplode.png (PNG copy)>] [8]
+(./sep15-19.aux) ) 
 Here is how much of TeX's memory you used:
- 4878 strings out of 493108
- 70751 string characters out of 6137103
+ 4893 strings out of 493108
+ 71251 string characters out of 6137103
  148431 words of memory out of 5000000
- 8253 multiletter control sequences out of 15000+600000
+ 8263 multiletter control sequences out of 15000+600000
  11784 words of font info for 43 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,10n,43p,445b,267s stack positions out of 5000i,500n,10000p,200000b,80000s
-</home/lbrown/LaTeX/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmex10.pfb></home/lbrown/LaTeX/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmmi10.pfb></home/lbrown/LaTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-mi8.pfb></home/lbrown/LaTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb
-></home/lbrown/LaTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></home
-/lbrown/LaTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></home/lbrown
-/LaTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></home/lbrown/LaTeX/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></home/lbrown/LaTeX/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmss12.pfb></home/lbrown/LaTeX/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmsy10.pfb></home/lbrown/LaTeX/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmsy8.pfb></home/lbrown/LaTeX/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmtt10.pfb>
-Output written on sep15-19.pdf (6 pages, 188838 bytes).
+ 44i,11n,43p,445b,339s stack positions out of 5000i,500n,10000p,200000b,80000s
+</home/lbrown/LaTeX/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmex10.pfb></home/lbrown/LaTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi1
+0.pfb></home/lbrown/LaTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><
+/home/lbrown/LaTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></home/l
+brown/LaTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></home/lbrown/L
+aTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></home/lbrown/LaTeX/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></home/lbrown/LaTeX/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmss10.pfb></home/lbrown/LaTeX/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmss12.pfb></home/lbrown/LaTeX/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmsy10.pfb></home/lbrown/LaTeX/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmsy8.pfb></home/lbrown/LaTeX/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmtt10.pfb>
+Output written on sep15-19.pdf (8 pages, 238621 bytes).
 PDF statistics:
- 73 PDF objects out of 1000 (max. 8388607)
- 50 compressed objects within 1 object stream
+ 83 PDF objects out of 1000 (max. 8388607)
+ 56 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
