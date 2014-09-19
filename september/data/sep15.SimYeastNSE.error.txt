@@ -1,0 +1,5 @@
+Error in phi.New[accept] <- prop$phi.Prop[accept] : 
+  NAs are not allowed in subscripted assignments
+Calls: system.time ... do.call -> <Anonymous> -> my.drawPhiConditionalAllPred
+Timing stopped at: 6251.473 43.7 6298.546 
+Execution halted

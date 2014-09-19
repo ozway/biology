@@ -139,6 +139,8 @@ Ran the contents of cubfits/demo/nsef.train.r in an R interactive session, addin
 
 As far as I can tell, the cubfits() function itself doesn't actually use the model or .CF.CT\$model, I'll need ot look at drawP and drawPhi.
 
+According to Cedric, it's worthwhile to look at cubfits/cubfits/R/my.logdmultinomCodOne.r. That function calls cubfits/cubfits/src/stable\_exp.c and cubfits/cubfits/src/lib.c.
+
 
 \subsubsection{Optimal/Pessimal Code}
 
@@ -153,11 +155,78 @@ In making that change, I also made several more changes.
 \item added a count and ratio for how many codons are actually being up/downgraded
 \end{itemize}
 
+Deepika contacted me about an error in the code. The beginning of the for loop (line 78 in the original, now line 79)
+
+for(index in 1:length(sequence[[gene]]/3))\{
+\\to
+
+for(index in 1:(length(sequence[[gene]])/3))\{
+
+~
+
+The first one was causing a fractional value of index, which was making it do weird things, but mainly, it was making the code replace random chunks of genome, rather than accurately dividing the codon into groups of 3.
+
+
+\subsubsection{First Order Approximations}
+
+For completeness, I also wrote down how we derived the fitness function in fitnessHistory.tex
+
+
+$p_{ic}$ is the probability of a nonsense error at position $i$ using codon $c$
+\\ $p_j$ is the probability of a nonsense error at position $j$
+
+~
+
+First order approximation about $p_{ic} = 0$ is
+$$f(p_{ic} \approx f(0) + f'(0)*(p_{ic}-0)
+= p_{ic}\left(
+\left[\sum_{k=1}^{i} a_1 + a_2(k-1)\right]
+\left[\prod_{j=i+1}^{n}(\frac{1}{1-p_{j}})\right]
+\right)
+$$
+
+
+First order approximation about $p_{i+1} \approx p_{i+2} \cdots \approx p_{n} \approx 0$ is
+
+$$
+f(p_j) \approx
+\left[\sum_{k=1}^{i} a_1 + a_2(k-1)\right]
+\left[\frac{p_{ic}}{1-p_{ic}}\right]
++
+\left( (i+1) - n \right)
+\left[\sum_{k=1}^{i} a_1 + a_2(k-1)\right]
+\left[\frac{p_{ic}}{1-p_{ic}}\right]
+\left( p_{j} \right)
+$$
+
+$$
+f(p_j) \approx
+f(0) + (f(0))(p_j)((i+1)-n)
+$$
+
+
+Details are in approx.tex
+
+
+\subsubsection{Simulated Data Set from REU13}
+The data is in /home/lbrown/reucode/data/inputsimdata/REU\_data
+
+I think elongation rate refers to the odds $\frac{p_i}{1-p_i}$.
+
 
 
 \subsection{Goals for next Week}
 \begin{enumerate}
-\item Future Goal
+\item Simulated Data Set
+\item Potentially look at the c files in cubfits/cubfits/src
+\item \sout{Code the first order approximations? Looking at my draw*.r for the fitness function}
+\item Check for problems in Wei-Chen's NSE code, specifically
+\begin{enumerate}
+\item \sout{Unnecessary VGLM calls leading to longer run times} As far as I can tell, my.fitMultinomOne.nsef and my.fitMultinomOne.roc are using the same amount of vglm calls.
+\item Ending crash caused by running out of memory
+\end{enumerate}
+
+\item Continue to improve the optimal-pessimal code as Deepika works with it.
 \end{enumerate}
 
 

@@ -1,3 +1,29 @@
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%									%
+% Mistaken Taylor approximations about p_i and p_j			%
+% What we actually want to do is expand the product, then remove	%
+% all the terms of order higher than 1, because they are negligable.	%
+%									%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 % !TEX TS-program = pdflatex
 % !TEX encoding = UTF-8 Unicode
 
@@ -216,7 +242,7 @@ $$
 \newpage
 
 
-Based on what we've talked about with the math, it may be possible that Mike meant to assume $p_{i+1} \approx p_{i+2} \approx \cdots \approx p_{n}$. This feels a little questionable. They are all sufficiently close to 0, but approximating them all at once is suspect. For the first codon in a gene of length 400, $p_j$ incorporates as many as $3^{399}$ different values.
+Based on what we've talked about with the math, it may be possible that Mike meant to assume $p_{i+1} \approx p_{i+2} \approx \cdots \approx p_{n}$. This feels risky. They are all sufficiently close to 0, but approximating them all at once is suspect. For the first codon in a gene of length 400, $p_j$ incorporates as many as $3^{399}$ different values. Treating them as the same value $p_j$ doesn't really respect the biology, but doing a multivariable Taylor approximation as a single variable approximation doesn't respect the math.
 
 Regardless, here is the approximation. To keep in the spirit of $p_{j} \neq p_{j+1}$, I will not simplify $\left[\prod_{j=i+1}^{n}(\frac{1}{1-p_{j}})\right]$ to $\frac{1}{(1-p_{j})^{n-(i+1)}}$, though the calculation actually comes out the same either way.
 

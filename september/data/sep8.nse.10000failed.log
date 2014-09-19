@@ -1,0 +1,54 @@
+===================================================================================
+================================ START HEADER =====================================
+===================================================================================
+Function call:
+Rscript run_roc.r -c cubfits -s 0.5 1 2 4 -f ../data/ecoli_K12_MG1655_genome_filtered.fasta -p ../data/ecoli_X_obs.csv -o ../results/conv_test/ -n with_xobs_multichain_lapply_4cores -i wxobs_pinit.csv
+
+MCMC parameters:
+Number of samples between checks: 500 
+Min samples: 5000 
+Max samples: 10000 
+Reset QR until: 0 samples
+Thining: store every 10 iteration as sample
+Swap 0 % of b matrix
+Swap b matrix if L1-norm is < 0 
+
+Simulation parameters
+Number of Cores 4 
+Number of Chains: 4 
+Parallel mode within chain: lapply 
+Samples used: 10 
+First 0  AAs removed from sequence
+Sequences with less than 0 AAs ignored
+List of AAs taken into account:
+	A C D E F G H I K L M N P Q R S T V W Y Z
+
+Convergence criteria
+Convergence test: Gelman & Rubin
+Convergence criterium: Gelman Score < 0.15 
+Use every 1 sample for convergence test
+
+===================================================================================
+================================= END HEADER ======================================
+===================================================================================
+
+
+started at: 2014-09-08 17:22:05 
+using cubfits 
+reading sequences from file ../data/ecoli_K12_MG1655_genome_filtered.fasta 
+reading gene expression measurements (Xobs) from file
+ ../data/ecoli_X_obs.csv 
+and compare to ORF list from FASTA file
+ ../data/ecoli_K12_MG1655_genome_filtered.fasta 
+generating list of codon position in ORFs for each AA...
+generating list of number of AA occurences per ORF...
+generating list of codon counts per ORF...
+generate initial phi using SCUO with sd(ln(phi)) values
+	- 0.5 
+	- 1 
+	- 2 
+	- 4 
+running cubfits using cubmultichain 
+	 with seeds: 77778 8999 75095 68205
+	4 slaves are spawned successfully. 0 failed.
+Timing stopped at: 3731.937 2806.347 6535.868 

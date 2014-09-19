@@ -82,7 +82,14 @@ At position $i$...
 
 $$\frac{\mbox{Expected Cost}}{\mbox{Expected Benefit}} =
 \frac{[\mbox{(probability we reach $i$)(cost of reaching $i$)(probability of failure)}}
-{\mbox{Expected Benefit}}$$
+{ \sum_{i=1}^{n}(\mbox{value}_i)(\mbox{probability}_i) }$$
+
+Since $\mbox{value}_i = 0$ for all $i<n$,
+
+$$\frac{\mbox{Expected Cost}}{\mbox{Expected Benefit}} =
+\frac{[\mbox{(probability we reach $i$)(cost of reaching $i$)(probability of failure)}}
+{ \mbox{probability we reach $n$}}$$
+
 
 $$=
 \frac{
@@ -95,14 +102,14 @@ $$=
 
 
 $$=
-\left[\prod_{j=i}^{n}(1 - p_{j})\right]
+\left[\prod_{j=i}^{n}\frac{1}{1 - p_{j}}\right]
 \left[\sum_{k=1}^{i} a_1 + a_2(k-1)\right]
 \left[p_{ic}\right]
 $$
 
 
 $$=
-\left[\prod_{j=i+1}^{n}(1 - p_{j})\right]
+\left[\prod_{j=i+1}^{n}\frac{1}{1 - p_{j}}\right]
 \left[\sum_{k=1}^{i} a_1 + a_2(k-1)\right]
 \left[\frac{p_{ic}}{1-p{ic}}\right]
 $$

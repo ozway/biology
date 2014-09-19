@@ -1,0 +1,177 @@
+===================================================================================
+================================ START HEADER =====================================
+===================================================================================
+Function call:
+Rscript run_roc.r -c cubfits -s 0.5 1 2 4 -f ../data/ecoli_K12_MG1655_genome_filtered.fasta -p ../data/ecoli_X_obs.csv -o ../results/conv_test/ -n with_xobs_multichain_lapply_4cores -i wxobs_pinit.csv
+
+MCMC parameters:
+Number of samples between checks: 1000 
+Min samples: 50 
+Max samples: 10000 
+Reset QR until: 0 samples
+Thining: store every 10 iteration as sample
+Swap 0 % of b matrix
+Swap b matrix if L1-norm is < 0 
+
+Simulation parameters
+Number of Cores 4 
+Number of Chains: 4 
+Parallel mode within chain: lapply 
+Samples used: 100 
+First 0  AAs removed from sequence
+Sequences with less than 0 AAs ignored
+List of AAs taken into account:
+	A C D E F G H I K L M N P Q R S T V W Y Z
+
+Convergence criteria
+Convergence test: Gelman & Rubin
+Convergence criterium: Gelman Score < 0.15 
+Use every 1 sample for convergence test
+
+===================================================================================
+================================= END HEADER ======================================
+===================================================================================
+
+
+started at: 2014-09-04 15:14:33 
+using cubfits 
+reading sequences from file ../data/ecoli_K12_MG1655_genome_filtered.fasta 
+reading gene expression measurements (Xobs) from file
+ ../data/ecoli_X_obs.csv 
+and compare to ORF list from FASTA file
+ ../data/ecoli_K12_MG1655_genome_filtered.fasta 
+generating list of codon position in ORFs for each AA...
+generating list of number of AA occurences per ORF...
+generating list of codon counts per ORF...
+generate initial phi using SCUO with sd(ln(phi)) values
+	- 0.5 
+	- 1 
+	- 2 
+	- 4 
+running cubfits using cubmultichain 
+	 with seeds: 31238 38136 49930 93229
+	4 slaves are spawned successfully. 0 failed.
+Timing stopped at: 4.819 1.73 6.668 
+===================================================================================
+================================ START HEADER =====================================
+===================================================================================
+Function call:
+Rscript run_roc.r -c cubfits -s 0.5 1 2 4 -f ../data/ecoli_K12_MG1655_genome_filtered.fasta -p ../data/ecoli_X_obs.csv -o ../results/conv_test/ -n with_xobs_multichain_lapply_4cores -i wxobs_pinit.csv
+
+MCMC parameters:
+Number of samples between checks: 1000 
+Min samples: 50 
+Max samples: 10000 
+Reset QR until: 0 samples
+Thining: store every 10 iteration as sample
+Swap 0 % of b matrix
+Swap b matrix if L1-norm is < 0 
+
+Simulation parameters
+Number of Cores 4 
+Number of Chains: 4 
+Parallel mode within chain: lapply 
+Samples used: 100 
+First 0  AAs removed from sequence
+Sequences with less than 0 AAs ignored
+List of AAs taken into account:
+	A C D E F G H I K L M N P Q R S T V W Y Z
+
+Convergence criteria
+Convergence test: Gelman & Rubin
+Convergence criterium: Gelman Score < 0.15 
+Use every 1 sample for convergence test
+
+===================================================================================
+================================= END HEADER ======================================
+===================================================================================
+
+
+started at: 2014-09-04 15:17:13 
+using cubfits 
+reading sequences from file ../data/ecoli_K12_MG1655_genome_filtered.fasta 
+reading gene expression measurements (Xobs) from file
+ ../data/ecoli_X_obs.csv 
+and compare to ORF list from FASTA file
+ ../data/ecoli_K12_MG1655_genome_filtered.fasta 
+generating list of codon position in ORFs for each AA...
+generating list of number of AA occurences per ORF...
+generating list of codon counts per ORF...
+generate initial phi using SCUO with sd(ln(phi)) values
+	- 0.5 
+	- 1 
+	- 2 
+	- 4 
+running cubfits using cubmultichain 
+	 with seeds: 30638 61294 31144 10739
+	4 slaves are spawned successfully. 0 failed.
+Timing stopped at: 7516.845 5667.021 13180.47 
+===================================================================================
+================================ START HEADER =====================================
+===================================================================================
+Function call:
+Rscript run_roc.r -c cubfits -s 0.5 1 2 4 -f ../data/ecoli_K12_MG1655_genome_filtered.fasta -p ../data/ecoli_X_obs.csv -o ../results/conv_test/ -n with_xobs_multichain_lapply_4cores -i wxobs_pinit.csv
+
+MCMC parameters:
+Number of samples between checks: 1000 
+Min samples: 50 
+Max samples: 10000 
+Reset QR until: 0 samples
+Thining: store every 10 iteration as sample
+Swap 0 % of b matrix
+Swap b matrix if L1-norm is < 0 
+
+Simulation parameters
+Number of Cores 4 
+Number of Chains: 4 
+Parallel mode within chain: lapply 
+Samples used: 100 
+First 0  AAs removed from sequence
+Sequences with less than 0 AAs ignored
+List of AAs taken into account:
+	A C D E F G H I K L M N P Q R S T V W Y Z
+
+Convergence criteria
+Convergence test: Gelman & Rubin
+Convergence criterium: Gelman Score < 0.15 
+Use every 1 sample for convergence test
+
+===================================================================================
+================================= END HEADER ======================================
+===================================================================================
+
+
+started at: 2014-09-05 09:02:20 
+using cubfits 
+reading sequences from file ../data/ecoli_K12_MG1655_genome_filtered.fasta 
+reading gene expression measurements (Xobs) from file
+ ../data/ecoli_X_obs.csv 
+and compare to ORF list from FASTA file
+ ../data/ecoli_K12_MG1655_genome_filtered.fasta 
+generating list of codon position in ORFs for each AA...
+generating list of number of AA occurences per ORF...
+generating list of codon counts per ORF...
+generate initial phi using SCUO with sd(ln(phi)) values
+	- 0.5 
+	- 1 
+	- 2 
+	- 4 
+running cubfits using cubmultichain 
+	 with seeds: 66341 60692 39632 19534
+	4 slaves are spawned successfully. 0 failed.
+Timing stopped at: 7334.099 5563.81 12892.89 
+
+
+
+drwxrwxr-x 2 lbrown lbrown       4096 Sep  3 13:45 chain_1/
+drwxrwxr-x 2 lbrown lbrown       4096 Aug 29 18:12 chain_2/
+drwxrwxr-x 2 lbrown lbrown       4096 Aug 29 18:13 chain_3/
+drwxrwxr-x 2 lbrown lbrown       4096 Aug 29 18:13 chain_4/
+-rw-rw-r-- 1 lbrown lbrown 1017836585 Sep  4 15:10 sept3run.tar.gz
+-rw-rw-r-- 1 lbrown lbrown      43302 Sep  3 14:13 trash.log
+-rw-rw-r-- 1 lbrown lbrown      11392 Aug 29 14:32 without_xobs_multichain_lapply_4cores.log
+-rw-rw-r-- 1 lbrown lbrown       4065 Sep  4 18:02 with_xobs_multichain_lapply_4cores.bmat
+-rw-rw-r-- 1 lbrown lbrown       6124 Sep  5 12:38 with_xobs_multichain_lapply_4cores.log
+-rw-rw-r-- 1 lbrown lbrown     210170 Sep  4 18:02 with_xobs_multichain_lapply_4cores.phi
+-rw-rw-r-- 1 lbrown lbrown       3144 Sep  3 09:49 xobs1.bmat
+-rw-rw-r-- 1 lbrown lbrown     210178 Sep  3 09:50 xobs1.phi
