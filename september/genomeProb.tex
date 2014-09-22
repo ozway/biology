@@ -1,0 +1,111 @@
+\input{../header.tex}
+\usepackage{amssymb}
+
+\DeclareMathSizes{10}{10}{10}{10}
+
+%
+% The probability of seeing a whole genome
+%
+
+\begin{document}
+
+
+\section{Mike Questions}
+\begin{enumerate}
+\item What is the difference between $\vec{c_i}$ and $c_i$? Should we just use $\vec{c}$ and $c_i$?
+\item Why does a $\vec{c_i}$ term appear in the denominator? is $\omega_j$ a function of $\vec{c_i}$ in this notation?
+\item $\vec{c}$ denotes the entire genome, correct?
+\item If $\vec{c}$ does denote the whole genome, should $\phi$ have some sort of subscript relating it to the current gene in the genome?
+\item Is it alright if I use $\nu$ to denote the number of synonyms to $c_i$?
+\item Where do the mutation terms go? I think I'll include them for completeness. Just turn
+$\mbox{exp}\left[-\sum_j \beta_j \omega_j (\vec{c}_\iota) \phi \right]$
+into
+$\mbox{exp}\left[-\sum_j (\mu_j - \beta_j \omega_j (\vec{c}_\iota)) \phi \right]$?
+\item $\mathbb{C}$ only contains synonymous sequences, correct?
+\end{enumerate}
+
+
+\section{Notation}
+
+$\vec{c}$ is the vector of codons (of length $n$, the length of the ??genome/gene??)
+
+??$\vec{c}_\iota$/$c_\iota$?? is the $i^{th}$ codon of $\vec{c}$
+
+$\vec{\theta}$ is our given conditions, including $\beta, \phi, \omega$, and the effective population size
+
+$\sum_j$ is shorthand for $\sum_{j=1}^n$, the sum over the whole ??genome/gene??
+
+$\beta_j$ is the cost of codon translation. In the NSE model, this is constant. In the ROC model, this is the main variable.
+
+$\omega_j$ is the odds of a nonsense error at codon $j$, $\frac{p_j}{1-p_j}$ 
+
+$\phi$ is the expression level of the gene
+
+$\mathbb{C}$ is the set of all possible ??synonymous?? sequences
+
+$\nu$ is the number of synonymous codons to $\vec{c}_i$
+
+\section{Math}
+
+``The probability of seeing codon $\vec{c}_i$ at position $i$ (given our conditions) is approximately the fitness of that sequence divided by the sum of the fitness of all possible synonymous sequences"
+\[
+P(\vec{c}_\iota | \vec{\theta}) \approx
+\frac{
+\mbox{exp}\left[-\sum_{j} \beta_j \omega_j (\vec{c}_\iota) \phi \right]
+}{
+\sum _{K \in \mathbb{C}}
+\mbox{exp}\left[-\sum_j \beta_j \omega_j (\vec{c}_\iota) \phi \right]
+}
+\]
+
+
+%\noindent{For simplicity, I'm going to rewrite exp$\left[-\sum_{j} \beta_j \omega_j (\vec{c}_\iota) \phi \right]$ as exp[$fitness$]
+Rewrite the sum as the sum across the synonyms.
+Added notation: 
+
+$\nu$ is the number of synonyms for the given codon $i$
+
+\[
+\approx
+\frac{
+\sum _{K \in \mathbb{C} | c_k = c_\iota}
+\mbox{exp}\left[-\sum_{j} \beta_j \omega_j (\vec{c}_\iota) \phi \right]
+}{
+\sum_{\ell=1}^\nu
+\sum _{K \in \mathbb{C} | c_k = c_\ell}
+\mbox{exp}\left[-\sum_j \beta_j \omega_j (\vec{c}_\iota) \phi \right]
+}
+\]
+
+Pull out the term for the current codon chain, where $c_j=c_i$
+
+\[
+\approx
+\frac{
+\left[
+\sum _{K \in \mathbb{C}}
+\mbox{exp}\left[-\sum_{j\neq k} \beta_j \omega_j (\vec{c}_\iota) \phi \right]
+\right]
+\left(\mbox{exp}\left[-\beta_k \omega_k (\vec{c}_\iota) \phi \right]\right)
+}{
+\sum_{\ell=1}^\nu
+\sum _{K \in \mathbb{C} | c_k = c_\ell}
+\mbox{exp}\left[-\sum_j \beta_j \omega_j (\vec{c}_\iota) \phi \right]
+}
+\]
+
+
+Which cancels to
+
+
+\[
+\approx
+\frac{
+\mbox{exp}\left[-\beta_k \omega_k (\vec{c}_\iota) \phi \right]
+}{
+\sum_{\ell=1}^\nu
+\mbox{exp}\left[-\sum_j \beta_j \omega_j (\vec{c}_\iota) \phi \right]
+}
+\]
+
+\end{document}

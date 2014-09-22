@@ -11,7 +11,7 @@ cleanpdf:
 
 
 tar: 
-	tar czvf ../augustbackup.tar.gz ../august/*.tex ../august/*.pdf Makefile
+	tar czvf ../augustBio.tar.gz ../august/*.tex ../august/*.pdf Makefile
 
 backup: 
-	tar czvf ../augustbackup.tar.gz ../august/*.tex ../august/*.pdf Makefile
+	tar czvf ../augustBio.tar.gz ../august/*.tex ../august/*.pdf Makefile
