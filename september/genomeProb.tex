@@ -42,39 +42,36 @@
 \item Why does a $\vec{c_i}$ term appear in the fitness? is $\omega_{c_i}$ a function of $\vec{c_i}$ in this notation?
 \item $\vec{c}$ denotes the current gene, correct? Or does it represent the entire genome?
 \item If $\vec{c}$ does denote the whole genome, should $\phi$ have some sort of subscript relating it to the current gene in the genome?
-\item Is it alright if I use $\nu$ to denote the number of synonyms to $\vec{c}_i$?
 \item Where do the mutation terms go? I think I'll include them for completeness. Just turn
 $\mbox{exp}\left[-\sum_{j} \beta_{c_j} \omega_{c_j} (\vec{c}_j) \phi \right]$
 into
 $\mbox{exp}\left[-\sum_{j} (\mu_{c_j} - \beta_{c_j} \omega_{c_j} (\vec{c}_j)) \phi \right]$?
-\item $\mathbb{C}$ only contains synonymous sequences, correct?
-\item The last cancellation strikes me as odd, but I'm working through it now.
 \end{enumerate}
 
 
 \section{Notation}
 
-$\vec{c}$ is the vector of codons (of length $n$, the length of the ??gene/genome??)
+$\vec{c}$ is the vector of codons (of length $n$, the length of the gene)
 
-??$\vec{c}_i$/$c_i$?? is the $i^{th}$ codon of $\vec{c}$
+$\vec{c}_i$ or $c_i$ is the $i^{th}$ codon of $\vec{c}$
 
 $\vec{c}_{i\ell}$ is the $\ell^{th}$ synonym of codon $c_i$
 
 $\vec{\theta}$ is our given conditions, including $\beta, \phi, \omega$, and the effective population size
 
-$\sum_j$ is shorthand for $\sum_{j=1}^n$, the sum over the whole ??gene/genome??
+$\sum_j$ is shorthand for $\sum_{j=1}^n$, the sum over the whole gene
 
-$\beta_\chi$ is the cost of codon translation for codon $\chi$. In the NSE model, this is constant, $c_1 = c_2 = \cdots = c_n$. In the ROC model, this is the main variable.
+$\beta_\chi$ is the cost of codon translation for codon $\chi$. In the NSE model, this is constant, $\beta_1 = \beta_2 = \cdots = \beta_n$. In the ROC model, this is the main variable.
 
 $\omega_\chi$ is the odds of a nonsense error for codon $\chi$, $\frac{p_\chi}{1-p_\chi}$ 
 
 $\phi$ is the expression level of the gene
 
-$\mathbb{C}$ is the set of all possible ??synonymous?? sequences
+$\mathbb{C}$ is the set of all possible synonymous sequences
 
 $\nu$ is the number of synonymous codons to $\vec{c}_i$
 
-\section{Math}
+\section{Calculation}
 
 ``The probability of seeing codon $\vec{c}_i$ at position $i$ (given our conditions) is approximately the fitness of that sequence divided by the sum of the fitness of all possible synonymous sequences"
 \[
@@ -125,7 +122,7 @@ Pull out the term for the current codon in the chain, where $c_j=c_i$
 \]
 
 
-Additional expansion that wasn't on the board. 
+Additional expansion that wasn't on the board. Pull out the $K_{i\ell}$ term, knowing that $K_{i\ell}=c_{i\ell}$
 
 \[
 =
@@ -139,7 +136,7 @@ Additional expansion that wasn't on the board.
 \sum_{\ell=1}^\nu
 \sum _{K \in \mathbb{C} | K_{i\ell} = c_{i\ell}}
 \mbox{exp}\left[-\sum_{j\neq i} \beta_{K_j} \omega_{K_j} (\vec{K}_j) \phi \right]
-\mbox{exp}\left[-\beta_{K_i\ell} \omega_{K_i\ell} (\vec{K}_i\ell) \phi \right]
+\mbox{exp}\left[-\beta_{c_{i\ell}} \omega_{c_{i\ell}} (\vec{c}_{i\ell}) \phi \right]
 }
 \]
 
@@ -156,7 +153,7 @@ The $\ell$ term in the denominator can be pulled out of the inner sum, leaving
 }{
 \sum_{\ell=1}^\nu
 \left(
-\mbox{exp}\left[-\beta_{K_i\ell} \omega_{K_i\ell} (\vec{K}_i\ell) \phi \right]
+\mbox{exp}\left[-\beta_{c_{i\ell}} \omega_{c_{i\ell}} (\vec{K}_{i\ell}) \phi \right]
 \sum _{K \in \mathbb{C} | K_{i\ell} = c_{i\ell}}
 \mbox{exp}\left[-\sum_{j\neq i} \beta_{K_j} \omega_{K_j} (\vec{K}_j) \phi \right]
 \right)
@@ -176,7 +173,7 @@ Since the inner sum no longer relies on $\ell$, we can restate the above as
 }{
 \sum_{\ell=1}^\nu
 \left(
-\mbox{exp}\left[-\beta_{K_i\ell} \omega_{K_i\ell} (\vec{K}_i\ell) \phi \right]
+\mbox{exp}\left[-\beta_{c_{i\ell}} \omega_{c_{i\ell}} (\vec{C}_{i\ell}) \phi \right]
 \right)\left(
 \sum _{K \in \mathbb{C}}
 \mbox{exp}\left[-\sum_{j\neq i} \beta_{K_j} \omega_{K_j} (\vec{K}_j) \phi \right]
@@ -195,7 +192,7 @@ P(\vec{c}_i | \vec{\theta})
 \mbox{exp}\left[-\beta_{c_i} \omega_{c_i} (\vec{c}_i) \phi \right]
 }{
 \sum_{\ell=1}^\nu
-\mbox{exp}\left[-\beta_{K_j} \omega_{K_j} (\vec{K}_j) \phi \right]
+\mbox{exp}\left[-\beta_{c_{i\ell}} \omega_{c_{i\ell}} (\vec{c}_{i\ell}) \phi \right]
 }
 \]
 

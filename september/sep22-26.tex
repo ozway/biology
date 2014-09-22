@@ -18,6 +18,7 @@
 \subsection{Goals for the Week}
 \begin{enumerate}
 \item Write out the math from 9/19 (from the green notebook)
+\item Get observed yeast phi values from REU data
 \item Run NSE model with the Browser line when $phi$ is proposed to see what is causing NaN
 \item Ideally, an NSE patch to fix it (try NaN to NA?)
 \end{enumerate}
@@ -28,7 +29,17 @@
 
 see genomeProb.tex and genomeProb.pdf
 
+\subsubsection{Get observed yeast phi values from REU data}
+
 \subsubsection{Run NSE model with the Browser line when $phi$ is proposed to see what is causing NaN}
+
+7/22: The local library has been built. I removed the \& to ensure that browser() will activate, and and wrote in two checks in my.logdmultinomCodOne.r
+
+\verbatiminput{misc/browsercommand.txt}
+
+but it's taken nearly 8 hours to run!!! The run started at: 2014-09-22 10:24:55 
+
+I left at 18:15:, so I don't know what happens.
 
 \subsubsection{Ideally, an NSE patch to fix it (try NaN to NA?)}
 
