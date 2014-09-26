@@ -1,0 +1,9 @@
+if(tmp_exp == HUGE_VAL || tmp_exp == 0.0){
+	*flag_out_range = 1;
+	*scale_exp = (tmp_exp == HUGE_VAL) ? max_exp : -max_exp;
+	do{
+		*scale_exp *= 0.5;
+		tmp_exp = exp(*scale_exp);
+	} while(tmp_exp == HUGE_VAL);
+	*scale_exp = max_exp - *scale_exp;
+}

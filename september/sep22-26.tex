@@ -67,6 +67,15 @@ I've done two separate runs of nsef cubfits.
 \item It happens in cubfits and cubappr 
 \item It is not just happening for one amino acid. For the first run, it happened in Amino Acid 5 (F). In the run, it happened in both 8 and 9 (I and K). The third run happened in 11 (N).
 \item It is lp.vec, the return from my.inverse.mlogit.r
+\item my.inverse.mlogit passes NON NaN values (though they are stupidly large like 1.452498e+18 instead of -0.5610390) to invmlogit, and it returns NaN values.
+\item The code gets stuck in the following loop
+
+\verbatiminput{misc/stuckHUGE_VALUEloop.txt}
+
+That's what causes the slow down.
+
+But this means the problem comes earlier. At some point in the code, some probabilities are going to infinity, which causes the HUGE\_VALUE loop (and the slowdown), and eventually causes NaN values.
+
 
 \item All the values for lpProp are generally too low.\\
 mean(lpProp[is.finite(lpProp)]) returns -588.3597 in from the first run, and -554.7103 in the second run.\\

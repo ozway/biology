@@ -1,0 +1,15 @@
+[1] "ALERT ALERT ALERT lpProp has NaN!"
+Called from: my.drawPhiConditionalAll(phi.Curr, phi.Obs, y, n, b.Curr, p.Curr, 
+    reu13.df = reu13.df.obs)
+Browse[1]> ls()
+ [1] "b"        "lpCurr"   "lpProp"   "n"        "p.Curr"   "phi.Curr"
+ [7] "phi.Obs"  "prop"     "reu13.df" "y"       
+There were 50 or more warnings (use warnings() to see the first 50)
+Browse[1]> warnings()
+Warning messages:
+1: In tmp.phi * reu13.df.aa$Pos :
+  longer object length is not a multiple of shorter object length
+2: In tmp.phi * reu13.df.aa$Pos :
+  longer object length is not a multiple of shorter object length
+3: In tmp.phi * reu13.df.aa$Pos :
+  longer object length is not a multiple of shorter object length
