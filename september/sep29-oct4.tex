@@ -1,0 +1,96 @@
+\input{../header.tex}
+
+\title{Work Log for September}
+\author{Logan Brown}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+\maketitle
+%\tableofcontents
+
+
+\setcounter{section}{4} %week number minus 1
+\setcounter{subsection}{-1}
+\setcounter{subsubsection}{0}
+
+\section{Week of September 29th - October 4th}
+\subsection{Goals for the Week}
+%Paste output from writeGoals
+\begin{enumerate}
+\item Find out what causes some of the probabilties are going outrageously high
+\item If possible, NSE Patch
+\item More information on Codon Position
+\item Look into an R Vim extension or RStudio
+\item (Optional) Find out what trace() does
+
+\end{enumerate}
+
+\subsection{Progress/Notes}
+
+\subsubsection{What I know from Last Week (kept here for ease of access)}
+
+Here's what I know about the NaN error
+
+\begin{enumerate}
+\item \sout{one} One or more of the elements of lpProp is going to NaN.
+\item It is not always the same element. For my first run, it was zraS. The second was ecnA.
+\item It is not because log(0)$= -\infty$. Multiple elements are going to -Inf (106 in the first run,  87 in the second run). Moreover, the roc code also tends to generate -Inf values (though not nearly as many in each run, only 1 or 2).
+\item It doesn't appear that the scale is going out of control. Scale and acceptance rate stay similar to the values used in the ROC model.
+\item It happens in cubfits and cubappr
+\item It is not just happening for one amino acid. For the first run, it happened in Amino Acid 5 (F). In the run, it happened in both 8 and 9 (I and K). The third run happened in 11 (N). In the fourth run, it happened in 3 and 8 (D and I). In the fifth, it was 4 (E).
+\item It is lp.vec, the return from my.inverse.mlogit.r
+\item my.inverse.mlogit passes NON NaN values (though they are stupidly large like 1.452498e+18 instead of -0.5610390) to invmlogit, and it returns NaN values.
+\item The code gets stuck in the following loop
+
+\verbatiminput{misc/stuckHUGE_VALUEloop.txt}
+
+That's what causes the slow down.
+
+But this means the problem comes earlier. At some point in the code, some probabilities are going to infinity, which causes the HUGE\_VALUE loop (and the slowdown), and eventually causes NaN values.
+
+Cedric suggested that it may be caused by the covariance matrix exploding.
+
+\item \sout{All} On average, the values for lpProp are generally too low.\\
+mean(lpProp[is.finite(lpProp)]) returns -588.3597 in from the first run, and -554.7103 in the second run.
+\end{enumerate}
+
+
+\subsubsection{Find out what causes some of the probabilties are going outrageously high}
+
+Theories:
+
+One value is going to infinity, for its own reasons. This causes the other values to drop in response, which explains the drop in the average lpProp values. Through some means (addition of the bias? Seems unlikely, logdmultinomCodAllR returns NaN values before the bias comes into effect), I think one of the probabilities goes above 1. Then the odds ratio $\frac{p_{\vec{c}_{ij}}}{1 - p_{\vec{c}_{ij}}} > 1$, which causes the probabilites to EXPLODE. But, it stays under a cap, because stable\_exp.c has the HUGE\_VALUE loop (included above) that keeps things "under control". In attempting to scale the probabilities, it just slows down the code (because it's trying to scale down exponential growth by halves). Eventually, the value becomes so high that the C code cannot process it and returns NaN, which the R code refuses to use for the acceptance vector, and the code crashes.
+
+To test this theory, I ran one crash test run of the NSE code (documented), with random seed 83455 and got a NaN number for lp.vec at amino acid 4, in lp.vec[7472]. I'm now rerunning the code with that random seed, and tracking the values of lp.vec[7472]. If I'm correct, it should eventually reach above 1, and then skyrocket from there.
+
+One other possibility is that it's some kind of numerical error e.g. underflow, and the value lp.vec[7472] will suddenly jump from $-30$ish to $1\times10^{18}$
+
+
+
+\subsubsection{Compare Min, Max, and Average Values}
+
+grep (min/max/avg/NaN/inf) (file) $\vert$ sort $\vert$ (head/tail)
+
+
+
+\subsubsection{If possible, NSE Patch}
+
+\subsubsection{More information on Codon Position}
+
+\subsubsection{Look into an R Vim extension or RStudio}
+
+RStudio installed (also CMake), and it's VERY nice. Very intuitive, good use of screen real estate, and it holds a lot of information that I need at once. It keeps launching into /home/lbrown/PACKAGES/rstudio/bin though.
+
+\subsubsection{(Optional) Find out what trace() does}
+
+
+
+
+\subsection{Goals for next Week}
+\begin{enumerate}
+\item Future Goal
+\end{enumerate}
+
+
+\end{document} %End of day document, REMOVE
