@@ -89,6 +89,10 @@ grep (min/max/avg/NaN/inf) (file) $\vert$ sort $\vert$ (head/tail)
 
 Wrote a small script, topbot.sh (min/max/avg/NaN/inf) (file)
 
+\includegraphics{data/minROCvNSE.png}
+\includegraphics{data/avgROCvNSE.png}
+\includegraphics{data/maxROCvNSE.png}
+
 \subsubsection{Use Sections of the Simulated Yeast Genome}
 
 See cubfits/misc/S.cervisiae.REU13/random5ths.r
@@ -97,8 +101,6 @@ See cubfits/misc/S.cervisiae.REU13/random5ths.r
 \subsubsection{If possible, NSE Patch}
 
 One option to look into is to drop lp\_c\_raw from the code, and use rowsums like the Roc model. The two problems with that are that, as far as I can tell, lp.c.raw actually fixes the error in some cases, and using yaa * lp.vec complains for the NSE code. Not sure.
-
-\subsubsection{More information on Codon Position}
 
 \subsubsection{Look into an R Vim extension or RStudio}
 
@@ -124,7 +126,13 @@ How to GDB an R session
 
 \subsection{Goals for next Week}
 \begin{enumerate}
-\item Future Goal
+\item NSE Run Sections of Simulated Yeast Geome
+\item Find out what causes some of the probabilties to go outrageously high
+\item Compare Min, Max, and Average Values
+\item Use Sections of the Simulated Yeast Genome
+\item More information on Codon Position
+\item Look into an R Vim extension or RStudio
+\item Debugging Thoughts
 \end{enumerate}
 
 
