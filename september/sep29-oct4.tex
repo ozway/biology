@@ -14,16 +14,18 @@
 \setcounter{subsection}{-1}
 \setcounter{subsubsection}{0}
 
-\section{Week of September 29th - October 4th}
+\section{Week of September 29th - October 1st}
 \subsection{Goals for the Week}
 %Paste output from writeGoals
 \begin{enumerate}
-\item Find out what causes some of the probabilties are going outrageously high
+\item What I know from Last Week (kept here for ease of access)
+\item Find out what causes some of the probabilties to go outrageously high
+\item Compare Min, Max, and Average Values
+\item Use Sections of the Simulated Yeast Genome
 \item If possible, NSE Patch
 \item More information on Codon Position
 \item Look into an R Vim extension or RStudio
-\item (Optional) Find out what trace() does
-
+\item Debugging Thoughts
 \end{enumerate}
 
 \subsection{Progress/Notes}
@@ -51,30 +53,50 @@ But this means the problem comes earlier. At some point in the code, some probab
 
 Cedric suggested that it may be caused by the covariance matrix exploding.
 
-\item \sout{All} On average, the values for lpProp are generally too low.\\
+\item \sout{All the values} The average values for lpProp are generally too low.\\
 mean(lpProp[is.finite(lpProp)]) returns -588.3597 in from the first run, and -554.7103 in the second run.
+
+\item The C code sometimes FIXES the problem! When doing a second run with seed 83455, lp.vec has a NaN value at position 22893 (amino acid???) 
+
+\item The Phi values for codons with -Inf log probability are absurdly high.
+
+\verbatiminput{data/sep29.infPhi.txt}
+
+
 \end{enumerate}
 
 
-\subsubsection{Find out what causes some of the probabilties are going outrageously high}
+\subsubsection{Find out what causes some of the probabilties to go outrageously high}
 
 Theories:
 
 One value is going to infinity, for its own reasons. This causes the other values to drop in response, which explains the drop in the average lpProp values. Through some means (addition of the bias? Seems unlikely, logdmultinomCodAllR returns NaN values before the bias comes into effect), I think one of the probabilities goes above 1. Then the odds ratio $\frac{p_{\vec{c}_{ij}}}{1 - p_{\vec{c}_{ij}}} > 1$, which causes the probabilites to EXPLODE. But, it stays under a cap, because stable\_exp.c has the HUGE\_VALUE loop (included above) that keeps things "under control". In attempting to scale the probabilities, it just slows down the code (because it's trying to scale down exponential growth by halves). Eventually, the value becomes so high that the C code cannot process it and returns NaN, which the R code refuses to use for the acceptance vector, and the code crashes.
 
-To test this theory, I ran one crash test run of the NSE code (documented), with random seed 83455 and got a NaN number for lp.vec at amino acid 4, in lp.vec[7472]. I'm now rerunning the code with that random seed, and tracking the values of lp.vec[7472]. If I'm correct, it should eventually reach above 1, and then skyrocket from there.
+Alternately, the other values could be going to 0, which causes certain values to become certain (or beyond certain) in response, as opposed to the converse. 
+
+To test this theory, I ran one crash test run of the NSE code (documented), with random seed 83455 and got a NaN number for lp.vec at amino acid 4, in lp.vec[7472]. I'm now rerunning the code with that random seed, and tracking the values of lp.vec[7472]. If I'm correct, it should eventually reach above 0(log probability $> 0$ means probability is $> 1$), and then skyrocket from there.
 
 One other possibility is that it's some kind of numerical error e.g. underflow, and the value lp.vec[7472] will suddenly jump from $-30$ish to $1\times10^{18}$
 
+Results of test: Inconclusive
+
+Setting the random seed to the same value generated DIFFERENT results. Cedric suggests that the MCMC may behave on a separate random seed. This is problematic.
 
 
 \subsubsection{Compare Min, Max, and Average Values}
 
 grep (min/max/avg/NaN/inf) (file) $\vert$ sort $\vert$ (head/tail)
 
+Wrote a small script, topbot.sh (min/max/avg/NaN/inf) (file)
+
+\subsubsection{Use Sections of the Simulated Yeast Genome}
+
+See cubfits/misc/S.cervisiae.REU13/random5ths.r
 
 
 \subsubsection{If possible, NSE Patch}
+
+One option to look into is to drop lp\_c\_raw from the code, and use rowsums like the Roc model. The two problems with that are that, as far as I can tell, lp.c.raw actually fixes the error in some cases, and using yaa * lp.vec complains for the NSE code. Not sure.
 
 \subsubsection{More information on Codon Position}
 
@@ -82,7 +104,20 @@ grep (min/max/avg/NaN/inf) (file) $\vert$ sort $\vert$ (head/tail)
 
 RStudio installed (also CMake), and it's VERY nice. Very intuitive, good use of screen real estate, and it holds a lot of information that I need at once. It keeps launching into /home/lbrown/PACKAGES/rstudio/bin though.
 
-\subsubsection{(Optional) Find out what trace() does}
+\subsubsection{Debugging Thoughts}
+
+This was in last weeks summary, but it's included here for completeness.
+
+How to GDB an R session
+\begin{enumerate}
+\item cd /home/lbrown/cubfits/misc/R
+\item R -d gdb
+\item run
+\item source("debug\_nsef.r")
+\item Ctrl-C
+\item continue
+\end{enumerate}
+
 
 
 

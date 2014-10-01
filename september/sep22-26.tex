@@ -114,7 +114,23 @@ Position information? is in reu13.df\$(amino acid)\$Pos
 
 \subsubsection{Reread Debugging Chapter}
 
-Read the section on GDB, don't fully understand the section on trace.
+Read the section on GDB. Trace seems flexible but not horribly useful in my case.
+
+How to GDB an R session
+
+\begin{enumerate}
+\item cd /home/lbrown/cubfits/misc/R\\
+\item R -d gdb\\
+GDB will launch
+\item run\\
+(R will run)
+\item source("debug\_nsef.r")\\
+NSE model will begin in the R session. Run until the R browser catches an error
+\item Ctrl-C\\
+This returns to GDB (R is still active, but not running).Set a breakpoint.
+\item continue\\
+R continues running with GDB breakpoint. Launch the code you want to analyze with GDB (and possibly browser)
+\end{enumerate}
 
 
 

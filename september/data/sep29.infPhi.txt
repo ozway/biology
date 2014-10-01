@@ -1,0 +1,40 @@
+Browse[2]> mean(phi[is.finite(lp.c.raw)])
+[1] 15240.47
+Browse[2]> mean(phi[!is.finite(lp.c.raw)])
+[1] 3.256039e+20
+Browse[2]> testmat <- cbind(testvec[!is.finite(lp.c.raw)], lp.c.raw[!is.finite(lp.c.raw)], phi[!is.finite(lp.c.raw)], naa[!is.finite(lp.c.raw)])
+Browse[2]> colnames(testmat) <- c("#", "lp.c.raw", "phi", "naa")
+
+Browse[2]> testmat
+        # lp.c.raw          phi naa
+cnu   194     -Inf 1.041789e+07   4
+csrD  226     -Inf 1.091396e+04  18
+frmR  467     -Inf 1.756417e+08   4
+malQ  829     -Inf 1.057376e+04  36
+moaC  915     -Inf 1.814127e+05  10
+mqsR  934     -Inf 4.044010e+06   7
+rsxA 1433     -Inf 6.201766e+04   5
+shoB 1485      NaN 4.558455e+21   2
+tesB 1551     -Inf 1.629425e+05  10
+ybfA 1738     -Inf 8.534363e+05   4
+ycfJ 1801     -Inf 3.949059e+04  10
+yciB 1818     -Inf 2.038530e+05  12
+ygeR 1993     -Inf 6.640161e+04  20
+yhaJ 2020     -Inf 2.098447e+05  14
+
+Browse[2]> yaa[!is.finite(lp.c.raw),]
+     AAA AAG
+cnu    3   1
+csrD  14   4
+frmR   2   2
+malQ  24  12
+moaC   7   3
+mqsR   5   2
+rsxA   3   2
+shoB   2   0
+tesB   8   2
+ybfA   3   1
+ycfJ   7   3
+yciB   5   7
+ygeR  17   3
+yhaJ  13   1
