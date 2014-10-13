@@ -27,10 +27,28 @@
 \subsection{Find out what causes some of the probabilties to go outrageously high}
 
 \subsubsection{Compare Differences in the Code}
+\begin{verbatim}
+my.coef.r
+my.drawPhiConditionalAllPred.r
+my.drawPhiConditionalAll.r
+my.estimatePhiOne.r
+my.fitMultinomOne.r
+my.logdmultinomCodOne.r
+my.objectivePhiOne.Lfp.r
+my.objectivePhiOne.nlogL.r
+my.objectivePhiOne.nlogphiL.r
+my.objectivePhiOne.phiLfp.r
+my.pPropTypeNoObs.lognormal_bias.r
+plotbin.r
+plotmodel.r
+simu.orf.r
+\end{verbatim}
+
 
 Codes where NSE and ROC are the same:
 \begin{enumerate}
-\item my.estimatePhiOne
+\item my.coef.r
+\item my.estimatePhiOne.r
 
 \end{enumerate}
 
@@ -42,10 +60,12 @@ I have a run going that is tracking the scales of the MCMC for the phi values.
 Since the scale of the MCMC should be about the Standard Devation of Phi, we'll see what happens.
 
 PROBLEM:
-The ROC model has different Phi scales for each gene. The NSE model keeps all the scales the same between different genes. That could be contributing to the problem?
+The ROC model has different Phi scales for each gene. The NSE model keeps all the scales the same between different genes. That could be contributing to the problem? \sout{I think this is caused by the opatch we wrote that replaces Wei-Chen's scaling by .5  with subtracting out log(DBL\_MAX).}
 
 \includegraphics[width=0.5\textwidth]{data/oct10-roc-scalehist.png}
 \includegraphics[width=0.5\textwidth]{data/oct10-nse-scalehist.png}
+
+\textbf{Every 6th time that the scale is updated, the code resets all the scales to 1. This definitely happens in Yeast (NSE and ROC), and I think it happens in E Coli. Needs further testing.}
 
 
 \subsection{Simulated Yeast Genome}
