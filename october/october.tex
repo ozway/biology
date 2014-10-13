@@ -1,0 +1,98 @@
+\input{../header.tex}
+
+\title{Work Log for October}
+\author{Logan Brown}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\newpage
+
+
+\section{Goals for the Month}
+%Paste output from writeGoals
+\begin{enumerate}
+\item Find out what causes some of the probabilties to go outrageously high
+\item Use the Simulated Yeast Genome, compare to the Ecoli genome
+\item If possible, NSE Patch
+\item Debugging Thoughts
+\end{enumerate}
+
+\section{Progress/Notes}
+
+\subsection{Find out what causes some of the probabilties to go outrageously high}
+
+\subsubsection{Compare Differences in the Code}
+
+Codes where NSE and ROC are the same:
+\begin{enumerate}
+\item my.estimatePhiOne
+
+\end{enumerate}
+
+
+\subsection{Look at stddev(phi)}
+
+I have a run going that is tracking the scales of the MCMC for the phi values.
+
+Since the scale of the MCMC should be about the Standard Devation of Phi, we'll see what happens.
+
+PROBLEM:
+The ROC model has different Phi scales for each gene. The NSE model keeps all the scales the same between different genes. That could be contributing to the problem?
+
+\includegraphics[width=0.5\textwidth]{data/oct10-roc-scalehist.png}
+\includegraphics[width=0.5\textwidth]{data/oct10-nse-scalehist.png}
+
+
+\subsection{Simulated Yeast Genome}
+
+\subsubsection{Use Sections of the Simulated Yeast Genome}
+I ran one 5th of the yeast genome(section1.fasta, section1.csv) and it FINISHED. but... not well.
+
+See the results in data/10.01.yeastnse.*
+
+\begin{itemize}
+\item It took just over 30 hours to finish\\
+started at: 2014-10-01 15:57:54\\
+finished at: 2014-10-02 22:08:56 
+
+\item The proposed phi values are still outrageously too high. The final proposed phi had mean value 2766786.09545948
+
+\item Still proposing some 0 (-Inf) values for lpProp. At most, around 45-49 Inf per run.
+
+\item Xobs (the original phi values) are generally much lower than the results of run
+
+\item The values are not very accurate.
+
+\end{itemize}
+
+
+\subsubsection{Crashed Yeast Run}
+
+The vast vast majority of the phi values being proposed are fine. -Inf values are throwing it off. 
+
+
+\subsection{E. Coli genome}
+
+A LARGE NSE RUN OF THE E. COLI GENOME RAN TO COMPLETION.
+
+
+
+\subsection{If possible, NSE Patch}
+
+
+
+
+
+
+\section{Goals for next Month}
+\begin{enumerate}
+\item Future Goal
+\end{enumerate}
+
+
+\end{document} %End of day document, REMOVE

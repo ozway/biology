@@ -3,15 +3,11 @@ clean:
 	rm -fv *.aux
 	rm -fv *.toc
 
-cleanpdf:
-	rm -fv *.log
-	rm -fv *.aux
-	rm -fv *.toc
+cleanpdf: clean
 	rm -fv *.pdf
 
 
 tar: 
-	tar czvf ../septemberBio.tar.gz ../september/*.tex ../september/*.pdf
+	tar czvf ../octoberBio.tar.gz ../october/*.tex ../october/*.pdf
 
-backup: 
-	tar czvf ../septemberBio.tar.gz ../september/*.tex ../september/*.pdf
+backup: tar
