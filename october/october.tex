@@ -65,7 +65,29 @@ The ROC model has different Phi scales for each gene. The NSE model keeps all th
 \includegraphics[width=0.5\textwidth]{data/oct10-roc-scalehist.png}
 \includegraphics[width=0.5\textwidth]{data/oct10-nse-scalehist.png}
 
-\textbf{Every 6th time that the scale is updated, the code resets all the scales to 1. This definitely happens in Yeast (NSE and ROC), and I think it happens in E Coli. Needs further testing.}
+\textbf{Every 6th time that the scale is updated, the code resets all the scales to 1. This definitely happens in Yeast (NSE and ROC), and it definitely happens for NSE (Yeast and Ecoli). Does it happen in ROC-Ecoli? Yes, confirmed.}
+
+Also, Cedric says the number 6 is a result of the inputs. It has to do with the fact that my runs have been doing 50 samples between convergence checks and 10000 . I'm going to play with config.r to see this effect. (Confirmed).
+
+Theory: length(.cubfitsEnv\$DrawScale\$phi) is $$\frac{\mbox{Number of Samples between Convergence Checks}}{100} + 1.$$
+
+Every time that the code checks for convergence, it reinitializes some values, and causes the problem.
+
+By changing my values in config.r so that the code never checks for convergence (and therefore, never resets the scale), we get the following picture (left, before teh change, right after the change)
+
+\includegraphics[width=0.5\textwidth]{data/oct10-nse-scalehist.png}
+\includegraphics[width=0.5\textwidth]{data/oct15-phiscales-after_change.png}
+
+\begin{itemize}
+\item It's worthy of note that this is the second time a run of the NSE model on the Yeast genome has run to completion. Since this has happened in the past, I don't want to entirely attribute the successful run to the removal of the scaling reset, but this is some evidence. This may have been the problem preventing a successful NSE run.
+
+\item I expect the ROC model to have a similar but less dramatic change. The former phiscale values were all ones that were within $(1.2)^i(0.8)^j$ where $i, j, i+j \in \{0, 1,...,6\}$. The ROC model should have more varied scaling terms (likely a Normal distribution)
+
+\item It appears that the "proper" distribution of the phi scales is roughly a normal distribution, that is slightly biased towards lower values. The whole set has mean=3.570621 and $\sigma$=1.196958.
+
+
+\item but this seems odd to me. If the scale should be something like 4, but it was being artificially held back to $[0,2.48832]$, why was it therefore proposing NaN values? Shouldn't a LARGER scale make us more likely to propose impossible phi values? A small (and indeed, a very strangely behaving) scale should only prevent us from making progress, it shouldn't push us over some sort of cliff in the parameter space.
+\end{itemize}
 
 
 \subsection{Simulated Yeast Genome}
