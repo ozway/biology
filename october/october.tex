@@ -49,48 +49,10 @@ Codes where NSE and ROC are the same:
 \begin{enumerate}
 \item my.coef.r
 \item my.estimatePhiOne.r
-
 \end{enumerate}
 
 
-\subsection{Look at stddev(phi)}
-
-I have a run going that is tracking the scales of the MCMC for the phi values.
-
-Since the scale of the MCMC should be about the Standard Devation of Phi, we'll see what happens.
-
-PROBLEM:
-The ROC model has different Phi scales for each gene. The NSE model keeps all the scales the same between different genes. That could be contributing to the problem? \sout{I think this is caused by the opatch we wrote that replaces Wei-Chen's scaling by .5  with subtracting out log(DBL\_MAX).}
-
-\includegraphics[width=0.5\textwidth]{data/oct10-roc-scalehist.png}
-\includegraphics[width=0.5\textwidth]{data/oct10-nse-scalehist.png}
-
-\textbf{Every 6th time that the scale is updated, the code resets all the scales to 1. This definitely happens in Yeast (NSE and ROC), and it definitely happens for NSE (Yeast and Ecoli). Does it happen in ROC-Ecoli? Yes, confirmed.}
-
-Also, Cedric says the number 6 is a result of the inputs. It has to do with the fact that my runs have been doing 50 samples between convergence checks and 10000 . I'm going to play with config.r to see this effect. (Confirmed).
-
-Theory: length(.cubfitsEnv\$DrawScale\$phi) is $$\frac{\mbox{Number of Samples between Convergence Checks}}{100} + 1.$$
-
-Every time that the code checks for convergence, it reinitializes some values, and causes the problem.
-
-By changing my values in config.r so that the code never checks for convergence (and therefore, never resets the scale), we get the following picture (left, before teh change, right after the change)
-
-\includegraphics[width=0.5\textwidth]{data/oct10-nse-scalehist.png}
-\includegraphics[width=0.5\textwidth]{data/oct15-phiscales-after_change.png}
-
-\begin{itemize}
-\item It's worthy of note that this is the second time a run of the NSE model on the Yeast genome has run to completion. Since this has happened in the past, I don't want to entirely attribute the successful run to the removal of the scaling reset, but this is some evidence. This may have been the problem preventing a successful NSE run.
-
-\item I expect the ROC model to have a similar but less dramatic change. The former phiscale values were all ones that were within $(1.2)^i(0.8)^j$ where $i, j, i+j \in \{0, 1,...,6\}$. The ROC model should have more varied scaling terms (likely a Normal distribution)
-
-\item It appears that the "proper" distribution of the phi scales is roughly a normal distribution, that is slightly biased towards lower values. The whole set has mean=3.570621 and $\sigma$=1.196958.
-
-
-\item but this seems odd to me. If the scale should be something like 4, but it was being artificially held back to $[0,2.48832]$, why was it therefore proposing NaN values? Shouldn't a LARGER scale make us more likely to propose impossible phi values? A small (and indeed, a very strangely behaving) scale should only prevent us from making progress, it shouldn't push us over some sort of cliff in the parameter space.
-\end{itemize}
-
-
-\subsection{Simulated Yeast Genome}
+\subsection{Compare Genomes}
 
 \subsubsection{Use Sections of the Simulated Yeast Genome}
 I ran one 5th of the yeast genome(section1.fasta, section1.csv) and it FINISHED. but... not well.
@@ -118,13 +80,68 @@ finished at: 2014-10-02 22:08:56
 The vast vast majority of the phi values being proposed are fine. -Inf values are throwing it off. 
 
 
-\subsection{E. Coli genome}
+\subsubsection{E. Coli genome}
 
 A LARGE NSE RUN OF THE E. COLI GENOME RAN TO COMPLETION.
 
 
 
+\subsection{Look at stddev(phi)}
+
+I have a run going that is tracking the scales of the MCMC for the phi values.
+
+Since the scale of the MCMC should be about the Standard Devation of Phi, we'll see what happens.
+
+PROBLEM:
+The ROC model has different Phi scales for each gene. The NSE model keeps all the scales the same between different genes. That could be contributing to the problem? \sout{I think this is caused by the opatch we wrote that replaces Wei-Chen's scaling by .5  with subtracting out log(DBL\_MAX).}
+
+\includegraphics[width=0.5\textwidth]{data/oct10-roc-scalehist.png}
+\includegraphics[width=0.5\textwidth]{data/oct10-nse-scalehist.png}
+
+\textbf{Every 6th time that the scale is updated, the code resets all the scales to 1. This definitely happens in Yeast (NSE and ROC), and it definitely happens for NSE (Yeast and Ecoli). Does it happen in ROC-Ecoli? Yes, confirmed.}
+
+Also, Cedric says the number 6 is a result of the inputs. It has to do with the fact that my runs have been doing 50 samples between convergence checks and 10000 . I'm going to play with config.r to see this effect. (Confirmed).
+
+Theory: length(.cubfitsEnv\$DrawScale\$phi) is $$\frac{\mbox{Number of Samples between Convergence Checks}}{100} + 1.$$
+
+Every time that the code checks for convergence, it reinitializes some values, and causes the problem.
+
+By changing my values in config.r so that the code never checks for convergence (and therefore, never resets the scale), we get the following picture (left, before the change, right after the change)
+
+\includegraphics[width=0.5\textwidth]{data/oct15-phiscales-before_change.png}
+\includegraphics[width=0.5\textwidth]{data/oct15-phiscales-after_change.png}
+
+\begin{itemize}
+\item It's worthy of note that this is the second time a run of the NSE model on the Yeast genome has run to completion. Since this has happened in the past, I don't want to entirely attribute the successful run to the removal of the scaling reset, but this is some evidence. This may have been the problem preventing a successful NSE run.
+
+\item I expect the ROC model to have a similar but less dramatic change. The former phiscale values were all ones that were within $(1.2)^i(0.8)^j$ where $i, j, i+j \in \{0, 1,...,6\}$. The ROC model should have more varied scaling terms (likely a Normal distribution)
+
+\item It appears that the "proper" distribution of the phi scales is roughly a normal distribution, that is slightly biased towards lower values. The whole set has mean=3.570621 and $\sigma$=1.196958.
+
+
+\item but this seems odd to me. If the scale should be something like 4, but it was being artificially held back to $[0,2.48832]$, why was it therefore proposing NaN values? Shouldn't a LARGER scale make us more likely to propose impossible phi values? A small (and indeed, a very strangely behaving) scale should only prevent us from making progress, it shouldn't push us over some sort of cliff in the parameter space.
+\end{itemize}
+
+\subsection{Make a git repository for my scripts}
+
 \subsection{If possible, NSE Patch}
+
+\subsubsection{Patch 1 - Avoiding the 6th iteration reset}
+
+This is described in more detail in the section about stddev(phi), but I want to include the complete picture here.
+
+These were the histograms of the Phi Scales before avoiding the 6th iteration reset.
+
+\includegraphics[width=0.5\textwidth]{data/oct10-roc-scalehist.png}
+\includegraphics[width=0.5\textwidth]{data/oct10-nse-scalehist.png}
+
+
+These are the updated histograms.
+
+\includegraphics[width=0.5\textwidth]{data/oct17-RocPhi.png}
+\includegraphics[width=0.5\textwidth]{data/oct17-NsePhi.png}
+
+\subsubsection{Patch 2 - Avoiding the Unending Scaling Loop}
 
 
 
