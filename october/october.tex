@@ -124,7 +124,7 @@ By changing my values in config.r so that the code never checks for convergence 
 
 \subsection{Make a git repository for my scripts}
 
-\subsection{If possible, NSE Patch}
+\subsection{NSE Patches}
 
 \subsubsection{Patch 1 - Avoiding the 6th iteration reset}
 
@@ -138,13 +138,36 @@ These were the histograms of the Phi Scales before avoiding the 6th iteration re
 
 These are the updated histograms.
 
-\includegraphics[width=0.5\textwidth]{data/oct17-RocPhi.png}
-\includegraphics[width=0.5\textwidth]{data/oct17-NsePhi.png}
+\includegraphics[width=0.5\textwidth]{data/oct17-RocYeastScales.png}
+\includegraphics[width=0.5\textwidth]{data/oct17-NseYeastScales.png}
+
+Here's a side-by-side comparison of RocYeast versus RocEcoli
+
+
+\includegraphics[width=0.5\textwidth]{data/oct17-RocYeastScales.png}
+\includegraphics[width=0.5\textwidth]{data/oct20-RocEcoliScales.png}
 
 \subsubsection{Patch 2 - Avoiding the Unending Scaling Loop}
 
+I implemented C changes that replaced Wei-Chen's unending scaling loop with a one step subtraction. It seems that the code actually takes very slightly longer (.00013\% longer). This is confusing. My best explanation is that these operations were not taking up much time in the first place, so any differences is runtime were overtaken by the innate differences in the runtime (due to randomness).
 
+\begin{verbatim}
+                  Before Change   After Change
+(total time)          124806.34      125446.36
+my.inverse.mlogit      50367.20       50641.80
+.Call                  41140.64       41373.00
+match                  10364.14       10441.72
+is.nan                  4784.92        4809.60
+%*%                     4507.52        4536.28
+<Anonymous>             3497.62        3548.08
+cbind                   3444.98        3448.48
+matrix                  2634.48        2633.28
+cat                     1750.56        1720.10
+\end{verbatim}
 
+If further testing confirms this, I may revert the change, giving Wei-Chen's code the benefit of the doubt.
+
+More problematic is that this still doesn't fix the important problem.
 
 
 
