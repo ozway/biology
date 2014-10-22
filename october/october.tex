@@ -92,10 +92,46 @@ A LARGE NSE RUN OF THE E. COLI GENOME RAN TO COMPLETION.
 
 \subsection{Look at the change in the proposed Phi distribution over time}
 
-Trying to find a succinct way to look at these.
+Trying to find a nice way to look at these.
 
 \includepdf[pages={1}]{data/NSE-yeast-phiHistory.pdf}
 
+\subsection{bmat being badly written}
+
+One concern that I have is that the bmatfiles are being badly written for the NSE model. They should look like 
+
+\begin{verbatim}
+Parameter,Value,SD
+A,0.601255504722893,0.0237033066067192
+A,1.13452224653582,0.0267133181736158
+A,1.30103073124409,0.0238480349000172
+A,-0.318856124276582,0.0185921125022695
+A,-0.638707250936925,0.0239128208157251
+A,-0.430302895729612,0.0198676086998986
+C,-0.0281672064573597,0.050965967492386
+C,0.306346224638228,0.0485649142612776
+D,-1.04923142474412,0.0247797820471684
+D,0.548947123948893,0.0217844280815052
+\end{verbatim}
+
+However, theyl ook like this
+
+\begin{verbatim}
+Parameter,Value,SD
+(Intercept):1,-1.13368719411271,0.0163254262432022
+(Intercept):2,0.474079558190101,0.0187917078911786
+(Intercept):3,0.898302427488134,0.0273650691145686
+tmp.phi:reu13.df.aa$Pos:1,0.000638113297651608,3.70900280679152e-05
+tmp.phi:reu13.df.aa$Pos:2,2.66219626036282e-05,9.17596078252389e-06
+tmp.phi:reu13.df.aa$Pos:3,0.000762697807068617,7.47917510033425e-05
+(Intercept),0.407527027594279,0.0285214413558274
+tmp.phi:reu13.df.aa$Pos,0.000319785184813285,8.90451644378058e-05
+(Intercept),0.728372367207557,0.0119226668866337
+tmp.phi:reu13.df.aa$Pos,-6.65911530134893e-05,1.09884115801929e-05
+\end{verbatim}
+
+
+I'm fairly sure that this is some part of the code that is just getting the names of the codons wrong, however, I can't be sure. If deprecated part of the NSE code is reading the data structure incorrectly, then anything is possible. I want to fix this at one point
 
 \subsection{Look at stddev(phi)}
 
