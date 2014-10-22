@@ -27,7 +27,88 @@
 
 \subsection{Find out what causes some of the probabilties to go outrageously high}
 
-\subsubsection{Compare Differences in the Code}
+It may not be a gradual process?
+
+When I ran the NSE model on Ecoli after the oct20 config file change, element 571 of the lpProp vector was the one that proposed NaN. Below, I've included the final 20 values of lpProp 571, and its neighbors, 570 and 572. Its behaviors are not that weird by comparison.
+\begin{verbatim}
+      	lpProp 570  lpProp 571 lpProp 572
+[4177,]  -439.0460   -73.72289  -62.74278
+[4178,]  -436.8223  -204.74990  -63.29419
+[4179,]  -435.2346   -64.24408  -62.59052
+[4180,]  -436.0235   -73.35364  -64.13391
+[4181,]  -438.3667   -67.98921       -Inf
+[4182,] -2649.8670   -72.62635  -63.57204
+[4183,]  -435.5443  -115.24960 -134.97510
+[4184,]  -435.2912        -Inf  -65.44034
+[4185,]  -436.1059  -340.63310  -65.11169
+[4186,]  -589.3728   -68.32954  -67.40303
+[4187,]  -436.4503   -81.33534  -82.93474
+[4188,]  -436.3286   -72.06965       -Inf
+[4189,]  -438.5207   -63.91668 -120.27640
+[4190,]  -435.6769 -1054.61800       -Inf
+[4191,]  -435.5219 -1945.30800  -66.77650
+[4192,]  -437.3907   -77.26036  -62.84463
+[4193,]       -Inf   -65.85979  -62.55160
+[4194,]  -442.1116   -68.60126  -63.96031
+[4195,]  -438.5858        -Inf -572.40770
+[4196,]  -437.3305        -Inf  -67.74666
+\end{verbatim}
+
+At the time, the current and previous drawscale were 10.04997, which are higher than most, but outrageously high. Others in that group had similar and higher scales, and none of those crashed the code. In fact, their lp.c.raw values run the gamut \textit{(including 0?)}
+
+\begin{verbatim}
+Browse[1]> cbind(scales[which(scales>9)], lp.c.raw[which(scales>9)])
+           [,1]         [,2]
+ [1,]  9.087431   -2.2676430
+ [2,]  9.087431         -Inf
+ [3,]  9.087431    0.0000000
+ [4,]  9.087431   -7.5973340
+ [5,]  9.262054   -4.9464330
+ [6,]  9.466074   -1.5781378
+ [7,] 10.049972          NaN
+ [8,]  9.647973   -1.2280060
+ [9,]  9.466074   -1.9222918
+[10,] 10.049972   -1.8911363
+[11,] 10.049972    0.0000000
+[12,]  9.466074   -3.3491199
+[13,]  9.087431   -1.3763478
+[14,]  9.860494   -0.6880676
+[15,]  9.647973   -5.4668636
+[16,]  9.087431   -3.1531570
+[17,]  9.087431   -1.3761409
+[18,]  9.466074 -480.0767166
+[19,] 10.468721         -Inf
+[20,] 10.904917         -Inf
+[21,]  9.087431 -207.2068117
+[22,] 10.468721   -0.3495275
+[23,] 10.468721    0.0000000
+[24,]  9.087431    0.0000000
+[25,]  9.466074    0.0000000
+[26,]  9.087431    0.0000000
+[27,]  9.087431   -3.1482791
+\end{verbatim}
+
+\subsubsection{0s in lp.c.raw}
+
+There doesn't seem to be strong correlation between the lp.c.raw and the 0 values proposed in lp.c.raw. They do have 4 values in common (2174, 2175, 2181, and 2185), but the other scales run the gamut from 1.6 to 10.4.
+
+\begin{verbatim}
+Browse[1]> which(scales>9)
+ [1]  223  339  352  353  467  534  571  644  652  657  705  890  916 1239 1709
+[16] 1723 1734 1833 1884 2003 2049 2153 2174 2175 2181 2185 2187
+Browse[1]> which(lp.c.raw==0)
+ [1]  119  352  587  600  651  705  733  756  885 1124 1378 1410 1528 1562 1694
+[16] 1880 1906 1963 1982 2152 2165 2174 2175 2178 2181 2185 2190
+Browse[1]> scales[which(lp.c.raw==0)]
+ [1]  7.269945  9.087431  7.269945  3.573323  2.858659 10.049972  8.039977
+ [8]  7.888395  8.039977  8.374976  5.815956  6.979147  6.058287  7.572859
+[15]  6.979147  7.572859  1.623127  6.979147  2.286927  7.572859  7.269945
+[22] 10.468721  9.087431  7.269945  9.466074  9.087431  6.310716
+\end{verbatim}
+
+
+\newpage
+\subsection{Compare Differences in the Code}
 \begin{verbatim}
 my.coef.r
 my.drawPhiConditionalAllPred.r
@@ -54,8 +135,11 @@ my.estimatePhiOne.r
 
 Codes where NSE and ROC differ:
 \begin{verbatim}
+my.drawPhiConditionalAllPred.r
+my.drawPhiConditionalAll.r
 \end{verbatim}
 
+\newpage
 \subsection{Compare Genomes}
 
 \subsubsection{Use Sections of the Simulated Yeast Genome}
@@ -74,7 +158,7 @@ finished at: 2014-10-02 22:08:56
 
 \item Xobs (the original phi values) are generally much lower than the results of run
 
-\item The values are not very accurate.
+\item The values are not very accurate. They don't resemble the known phi values.
 
 \end{itemize}
 
@@ -96,43 +180,7 @@ Trying to find a nice way to look at these.
 
 \includepdf[pages={1}]{data/NSE-yeast-phiHistory.pdf}
 
-\subsection{bmat being badly written}
-
-One concern that I have is that the bmatfiles are being badly written for the NSE model. They should look like 
-
-\begin{verbatim}
-Parameter,Value,SD
-A,0.601255504722893,0.0237033066067192
-A,1.13452224653582,0.0267133181736158
-A,1.30103073124409,0.0238480349000172
-A,-0.318856124276582,0.0185921125022695
-A,-0.638707250936925,0.0239128208157251
-A,-0.430302895729612,0.0198676086998986
-C,-0.0281672064573597,0.050965967492386
-C,0.306346224638228,0.0485649142612776
-D,-1.04923142474412,0.0247797820471684
-D,0.548947123948893,0.0217844280815052
-\end{verbatim}
-
-However, theyl ook like this
-
-\begin{verbatim}
-Parameter,Value,SD
-(Intercept):1,-1.13368719411271,0.0163254262432022
-(Intercept):2,0.474079558190101,0.0187917078911786
-(Intercept):3,0.898302427488134,0.0273650691145686
-tmp.phi:reu13.df.aa$Pos:1,0.000638113297651608,3.70900280679152e-05
-tmp.phi:reu13.df.aa$Pos:2,2.66219626036282e-05,9.17596078252389e-06
-tmp.phi:reu13.df.aa$Pos:3,0.000762697807068617,7.47917510033425e-05
-(Intercept),0.407527027594279,0.0285214413558274
-tmp.phi:reu13.df.aa$Pos,0.000319785184813285,8.90451644378058e-05
-(Intercept),0.728372367207557,0.0119226668866337
-tmp.phi:reu13.df.aa$Pos,-6.65911530134893e-05,1.09884115801929e-05
-\end{verbatim}
-
-
-I'm fairly sure that this is some part of the code that is just getting the names of the codons wrong, however, I can't be sure. If deprecated part of the NSE code is reading the data structure incorrectly, then anything is possible. I want to fix this at one point
-
+\newpage
 \subsection{Look at stddev(phi)}
 
 I have a run going that is tracking the scales of the MCMC for the phi values.
@@ -169,6 +217,7 @@ By changing my values in config.r so that the code never checks for convergence 
 \item but this seems odd to me. If the scale should be something like 4, but it was being artificially held back to $[0,2.48832]$, why was it therefore proposing NaN values? Shouldn't a LARGER scale make us more likely to propose impossible phi values? A small (and indeed, a very strangely behaving) scale should only prevent us from making progress, it shouldn't push us over some sort of cliff in the parameter space.
 \end{itemize}
 
+\newpage
 \subsection{Make a git repository for my scripts}
 
 Done. https://github.com/ozway/cubmisc
@@ -219,7 +268,43 @@ If further testing confirms this, I may revert the change, giving Wei-Chen's cod
 More problematic is that this still doesn't fix the important problem, values going to NaN causing the acceptance step to crash.
 
 
+
 \section{Patch 3 - Fix how the .Bmat file is written}
+
+One concern that I have is that the bmat files are being badly written for the NSE model. They should look like 
+
+\begin{verbatim}
+Parameter,Value,SD
+A,0.601255504722893,0.0237033066067192
+A,1.13452224653582,0.0267133181736158
+A,1.30103073124409,0.0238480349000172
+A,-0.318856124276582,0.0185921125022695
+A,-0.638707250936925,0.0239128208157251
+A,-0.430302895729612,0.0198676086998986
+C,-0.0281672064573597,0.050965967492386
+C,0.306346224638228,0.0485649142612776
+D,-1.04923142474412,0.0247797820471684
+D,0.548947123948893,0.0217844280815052
+\end{verbatim}
+
+However, they look like this
+
+\begin{verbatim}
+Parameter,Value,SD
+(Intercept):1,-1.13368719411271,0.0163254262432022
+(Intercept):2,0.474079558190101,0.0187917078911786
+(Intercept):3,0.898302427488134,0.0273650691145686
+tmp.phi:reu13.df.aa$Pos:1,0.000638113297651608,3.70900280679152e-05
+tmp.phi:reu13.df.aa$Pos:2,2.66219626036282e-05,9.17596078252389e-06
+tmp.phi:reu13.df.aa$Pos:3,0.000762697807068617,7.47917510033425e-05
+(Intercept),0.407527027594279,0.0285214413558274
+tmp.phi:reu13.df.aa$Pos,0.000319785184813285,8.90451644378058e-05
+(Intercept),0.728372367207557,0.0119226668866337
+tmp.phi:reu13.df.aa$Pos,-6.65911530134893e-05,1.09884115801929e-05
+\end{verbatim}
+
+
+I'm fairly sure that this is some part of the code that is just getting the names of the codons wrong, however, I can't be sure. If deprecated part of the NSE code is reading the data structure incorrectly, then anything is possible. I want to fix this at one point
 
 
 
