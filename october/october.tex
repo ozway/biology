@@ -45,12 +45,15 @@ simu.orf.r
 \end{verbatim}
 
 
-Codes where NSE and ROC are the same:
-\begin{enumerate}
-\item my.coef.r
-\item my.estimatePhiOne.r
-\end{enumerate}
+Codes where NSE and ROC are the same, or incredibly similar:
+\begin{verbatim}
+my.coef.r
+my.estimatePhiOne.r
+\end{verbatim}
 
+Codes where NSE and ROC differ:
+\begin{verbatim}
+\end{verbatim}
 
 \subsection{Compare Genomes}
 
@@ -130,7 +133,7 @@ By changing my values in config.r so that the code never checks for convergence 
 
 This is described in more detail in the section about stddev(phi), but I want to include the complete picture here.
 
-These were the histograms of the Phi Scales before avoiding the 6th iteration reset.
+These were the histograms of the Phi Scales before avoiding the 6th iteration reset. Note that the histogram on the left is actually of the Roc model for E Coli. Do not compare it to the Yeast histogram below.
 
 \includegraphics[width=0.5\textwidth]{data/oct10-roc-scalehist.png}
 \includegraphics[width=0.5\textwidth]{data/oct10-nse-scalehist.png}
@@ -149,7 +152,7 @@ Here's a side-by-side comparison of RocYeast versus RocEcoli
 
 \subsubsection{Patch 2 - Avoiding the Unending Scaling Loop}
 
-I implemented C changes that replaced Wei-Chen's unending scaling loop with a one step subtraction. It seems that the code actually takes very slightly longer (.00013\% longer). This is confusing. My best explanation is that these operations were not taking up much time in the first place, so any differences is runtime were overtaken by the innate differences in the runtime (due to randomness).
+I implemented C changes that replaced Wei-Chen's unending scaling loop with a one step subtraction. It seems that the code actually takes very slightly longer (.00013\% longer). My best explanation is that these operations were not taking up much time in the first place, so any differences is runtime were overtaken by the innate differences in the runtime (due to randomness).
 
 \begin{verbatim}
                   Before Change   After Change
@@ -167,7 +170,11 @@ cat                     1750.56        1720.10
 
 If further testing confirms this, I may revert the change, giving Wei-Chen's code the benefit of the doubt.
 
-More problematic is that this still doesn't fix the important problem.
+More problematic is that this still doesn't fix the important problem, values going to NaN causing the acceptance step to crash.
+
+
+\section{Patch 3 - Fix how the .Bmat file is written}
+
 
 
 
