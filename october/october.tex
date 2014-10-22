@@ -1,4 +1,5 @@
 \input{../header.tex}
+\usepackage{pdfpages}
 
 \title{Work Log for October}
 \author{Logan Brown}
@@ -81,12 +82,19 @@ finished at: 2014-10-02 22:08:56
 \subsubsection{Crashed Yeast Run}
 
 The vast vast majority of the phi values being proposed are fine. -Inf values are throwing it off. 
+10/22 Note: Due to the config file change (See Patch 1 and "look at stddev(phi)"), I'm discrediting these values.
 
 
 \subsubsection{E. Coli genome}
 
 A LARGE NSE RUN OF THE E. COLI GENOME RAN TO COMPLETION.
+10/22 Note: Due to the config file change (See Patch 1 and "look at stddev(phi)"), I'm discrediting these values.
 
+\subsection{Look at the change in the proposed Phi distribution over time}
+
+Trying to find a succinct way to look at these.
+
+\includepdf[pages={1}]{data/NSE-yeast-phiHistory.pdf}
 
 
 \subsection{Look at stddev(phi)}
@@ -126,6 +134,8 @@ By changing my values in config.r so that the code never checks for convergence 
 \end{itemize}
 
 \subsection{Make a git repository for my scripts}
+
+Done. https://github.com/ozway/cubmisc
 
 \subsection{NSE Patches}
 
