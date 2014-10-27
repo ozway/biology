@@ -15,21 +15,78 @@
 
 
 \section{Goals for the Month}
-%Paste output from writeGoals
+As of Sept 30th
+%Old Goals
 \begin{enumerate}
 \item Find out what causes some of the probabilties to go outrageously high
 \item Use the Simulated Yeast Genome, compare to the Ecoli genome
 \item If possible, NSE Patch
 \item Debugging Thoughts
 \end{enumerate}
+%\begin{enumerate}
+%\item Find out what causes some of the probabilties to go outrageously high
+%\item Compare Differences in the Code
+%\item Compare Genomes
+%\item Look at the change in the proposed Phi distribution over time
+%\item Look at stddev(phi)
+%\item Make a git repository for my scripts
+%\item NSE Patches
+%\end{enumerate}
+
 
 \section{Progress/Notes}
+
+\subsection{Code notes}
+
+\subsubsection{my.logdmultinomCodOne.r}
+
+\begin{verbatim}
+tmp.phi <- rep(phi, naa)
+xm <- matrix(cbind(1, tmp.phi * reu13.df.aa$Pos), ncol = 2)
+baamat <- matrix(-baa, nrow = 2, byrow = TRUE)
+xm%*%baamat
+\end{verbatim}
+
+Phi is the expression level of each codon. Naa is the number of times that each amino acid appears in each codon. So tmp.phi is essentially stretched out phi. reu13.df.aa\$Pos is the position information (sorted increasing by value). 
+
+baamat is the codon specific information, baamat[1,1] is the mutation bias, baamat[2,1] is the odds ratio. So xm\%*\%baamat is $1*\mbox{mutation bias}+\mbox{odds}*\mbox{position}*\mbox{phi})$
+
+\begin{verbatim}
+Browse[1]> head(phi)
+      aaeB       aaeR        aas        aat       accA       accB 
+ 0.8974192  3.2587638  1.7777326  0.9867905  2.4253851 49.4914945 
+Browse[1]> head(naa)
+aaeB aaeR  aas  aat accA accB 
+  30   14   27    7   11    8 
+Browse[1]> head(tmp.phi)
+     aaeB      aaeB      aaeB      aaeB      aaeB      aaeB 
+0.8974192 0.8974192 0.8974192 0.8974192 0.8974192 0.8974192 
+Browse[1]> head(xm)
+     [,1]       [,2]
+[1,]    1   7.179353
+[2,]    1  27.819994
+[3,]    1 121.151588
+[4,]    1 128.330941
+Browse[1]> baamat
+             [,1]
+[1,] -0.890071751
+[2,]  0.001831086
+Browse[1]> head(xm%*%baamat)
+           [,1]
+[1,] -0.8769257
+[2,] -0.8391310
+[3,] -0.6682328
+[4,] -0.6550868
+\end{verbatim}
+
+
 
 \subsection{Find out what causes some of the probabilties to go outrageously high}
 
 It may not be a gradual process?
 
 When I ran the NSE model on Ecoli after the oct20 config file change, element 571 of the lpProp vector was the one that proposed NaN. Below, I've included the final 20 values of lpProp 571, and its neighbors, 570 and 572. Its behaviors are not that weird by comparison.
+
 \begin{verbatim}
       	lpProp 570  lpProp 571 lpProp 572
 [4177,]  -439.0460   -73.72289  -62.74278
@@ -57,40 +114,23 @@ When I ran the NSE model on Ecoli after the oct20 config file change, element 57
 At the time, the current and previous drawscale were 10.04997, which are higher than most, but outrageously high. Others in that group had similar and higher scales, and none of those crashed the code. In fact, their lp.c.raw values run the gamut \textit{(including 0?)}
 
 \begin{verbatim}
-Browse[1]> cbind(scales[which(scales>9)], lp.c.raw[which(scales>9)])
-           [,1]         [,2]
- [1,]  9.087431   -2.2676430
- [2,]  9.087431         -Inf
- [3,]  9.087431    0.0000000
- [4,]  9.087431   -7.5973340
- [5,]  9.262054   -4.9464330
- [6,]  9.466074   -1.5781378
- [7,] 10.049972          NaN
- [8,]  9.647973   -1.2280060
- [9,]  9.466074   -1.9222918
-[10,] 10.049972   -1.8911363
-[11,] 10.049972    0.0000000
-[12,]  9.466074   -3.3491199
-[13,]  9.087431   -1.3763478
-[14,]  9.860494   -0.6880676
-[15,]  9.647973   -5.4668636
-[16,]  9.087431   -3.1531570
-[17,]  9.087431   -1.3761409
-[18,]  9.466074 -480.0767166
-[19,] 10.468721         -Inf
-[20,] 10.904917         -Inf
-[21,]  9.087431 -207.2068117
-[22,] 10.468721   -0.3495275
-[23,] 10.468721    0.0000000
-[24,]  9.087431    0.0000000
-[25,]  9.466074    0.0000000
-[26,]  9.087431    0.0000000
-[27,]  9.087431   -3.1482791
+Browse[1]> cbind(scales[which(scales>9.5)], lp.c.raw[which(scales>9.5)])
+           [,1]       [,2]
+ [1,] 10.049972        NaN
+ [2,]  9.647973 -1.2280060
+ [3,] 10.049972 -1.8911363
+ [4,] 10.049972  0.0000000
+ [5,]  9.860494 -0.6880676
+ [6,]  9.647973 -5.4668636
+ [7,] 10.468721       -Inf
+ [8,] 10.904917       -Inf
+ [9,] 10.468721 -0.3495275
+[10,] 10.468721  0.0000000
 \end{verbatim}
 
 \subsubsection{0s in lp.c.raw}
 
-There doesn't seem to be strong correlation between the lp.c.raw and the 0 values proposed in lp.c.raw. They do have 4 values in common (2174, 2175, 2181, and 2185), but the other scales run the gamut from 1.6 to 10.4.
+There doesn't seem to be strong correlation between the lp.c.raw and the 0 values proposed in lp.c.raw. They do have 4 values in common (2174, 2175, 2181, and 2185), but the other scales vary from 1.6 to 10.4.
 
 \begin{verbatim}
 Browse[1]> which(scales>9)
@@ -105,6 +145,28 @@ Browse[1]> scales[which(lp.c.raw==0)]
 [15]  6.979147  7.572859  1.623127  6.979147  2.286927  7.572859  7.269945
 [22] 10.468721  9.087431  7.269945  9.466074  9.087431  6.310716
 \end{verbatim}
+
+
+\subsubsection{Two -Infs in a Row?}
+
+\sout{It's possible that the absurd values are being proposed because the previous two values are both -Inf ($ln(-\infty)=0$)}
+
+Confirmed that this is not a problem. The code can propose at least 9 -Infs in a row without crashing.
+
+
+
+\subsubsection{Codon Length / Lack of Information?}
+
+Here's a few of the ecoli genes and amino acids that led to NaN
+\begin{itemize}
+\item evgA - 205 codons, G Glycine (4 synomyms)
+\item yhdT - 80 codons, R Arginine (6 synonyms)
+\item gnsA - 58 codons, Q Glutamine (2 synonyms)
+\end{itemize}
+
+
+
+
 
 
 \newpage
@@ -139,8 +201,20 @@ my.drawPhiConditionalAllPred.r
 my.drawPhiConditionalAll.r
 \end{verbatim}
 
+
+
+
+
 \newpage
 \subsection{Compare Genomes}
+
+\subsubsection{The Gist}
+
+I haven't touched this section in two weeks or so, so it's fairly outdated.
+
+The gist is that Yeast tends to have scales hovering around 3.5-4 for ROC and NSE.
+
+Ecoli tends to have scales hovering around .7, at least for ROC. For NSE, it may center closer to 4 as well? Curious. Average ROC scale never went above 1.
 
 \subsubsection{Use Sections of the Simulated Yeast Genome}
 I ran one 5th of the yeast genome(section1.fasta, section1.csv) and it FINISHED. but... not well.
@@ -174,11 +248,18 @@ The vast vast majority of the phi values being proposed are fine. -Inf values ar
 A LARGE NSE RUN OF THE E. COLI GENOME RAN TO COMPLETION.
 10/22 Note: Due to the config file change (See Patch 1 and "look at stddev(phi)"), I'm discrediting these values.
 
+
+
+
+
+
+
+
 \subsection{Look at the change in the proposed Phi distribution over time}
 
 Trying to find a nice way to look at these.
 
-\includepdf[pages={1}]{data/NSE-yeast-phiHistory.pdf}
+%\includepdf[pages={1}]{data/NSE-yeast-phiHistory.pdf}
 
 \newpage
 \subsection{Look at stddev(phi)}
@@ -187,6 +268,7 @@ I have a run going that is tracking the scales of the MCMC for the phi values.
 
 Since the scale of the MCMC should be about the Standard Devation of Phi, we'll see what happens.
 
+\subsubsection{Scale reset}
 PROBLEM:
 The ROC model has different Phi scales for each gene. The NSE model keeps all the scales the same between different genes. That could be contributing to the problem? \sout{I think this is caused by the opatch we wrote that replaces Wei-Chen's scaling by .5  with subtracting out log(DBL\_MAX).}
 
@@ -211,16 +293,43 @@ By changing my values in config.r so that the code never checks for convergence 
 
 \item I expect the ROC model to have a similar but less dramatic change. The former phiscale values were all ones that were within $(1.2)^i(0.8)^j$ where $i, j, i+j \in \{0, 1,...,6\}$. The ROC model should have more varied scaling terms (likely a Normal distribution)
 
-\item It appears that the "proper" distribution of the phi scales is roughly a normal distribution, that is slightly biased towards lower values. The whole set has mean=3.570621 and $\sigma$=1.196958.
+\item It appears that the "proper" distribution of the phi scales is roughly a normal distribution that is slightly biased towards lower values. The whole set has mean=3.570621 and $\sigma$=1.196958.
 
 
 \item but this seems odd to me. If the scale should be something like 4, but it was being artificially held back to $[0,2.48832]$, why was it therefore proposing NaN values? Shouldn't a LARGER scale make us more likely to propose impossible phi values? A small (and indeed, a very strangely behaving) scale should only prevent us from making progress, it shouldn't push us over some sort of cliff in the parameter space.
 \end{itemize}
 
+
+\subsubsection{Graph scale vs ln(phi)}
+
+\includegraphics[width=0.5\textwidth]{data/S_Phi-vs-lnPhi-RocEcoli-1000.png}
+\includegraphics[width=0.5\textwidth]{data/S_Phi-vs-lnPhi-RocYeast-1000.png}
+\includegraphics[width=0.5\textwidth]{data/S_Phi-vs-lnPhi-NseEcoli-1000.png}
+\includegraphics[width=0.5\textwidth]{data/S_Phi-vs-lnPhi-NseYeast-1000.png}
+
+
+
+
+\newpage
+\subsection{Look at (Current State - Proposed Phi)}
+
+\includegraphics[width=0.5\textwidth]{data/oct27reCurr-Prop.png}
+\includegraphics[width=0.5\textwidth]{data/oct27reCurr-Prop_bounded.png}
+
+
+
+
+
 \newpage
 \subsection{Make a git repository for my scripts}
 
 Done. https://github.com/ozway/cubmisc
+
+
+
+
+
+
 
 \subsection{NSE Patches}
 
@@ -268,6 +377,26 @@ If further testing confirms this, I may revert the change, giving Wei-Chen's cod
 More problematic is that this still doesn't fix the important problem, values going to NaN causing the acceptance step to crash.
 
 
+\subsection{Patch 2a - Everything-max\_exp}
+
+Subtract out max\_exp from everything, all the time.
+Definitely forces everything $<=$ 0;
+
+Only concern is that if something small is there, it will be forced too low, and be exponentiated to 0. Not a LARGE concern, but a concern.
+
+Also, I think I've figured out why the old code didn't fix the problem.
+
+It evaluated $1459461302749408768.000000 - 709.782713 = 1459461302749408000.000000$. This is some sort of arithmetic error in C. It simplifies this sort of subtraction for questionable reasons. This causes the scaled high value to take values larger than ln(DBL\_MAX). This lead to an infinite exponent, which caused NaN normalized values.
+
+The new code still suffers from a version of this problem, but not in a way that will crash the code. 
+
+1459461302749408\textbf{638}.000000 rounds to
+1459461302749408\textbf{512}.000000
+
+Values seem to be going up and down to nearby values such that max-value is a sum of (powers of two of at least 256). If the difference is 1111, the second value changes so that the difference is 1024. If the difference is 1000, it rounds to 512. if the difference is 800, it goes to a difference of 768. differences of 129 or higher go to at least -256, and $e^{-256} \approx 0$. Differences of 128 or lower go to 0.  If the phi values differ by 129 orders of magnitude, then one of them simplifying to 1 and the other simplifying to 0 is not overly concerning. There is a loss of precision when there is a difference of 1-128, where they get proposed at 50\% each, but for values this high ($10^{18}$), the loss of precision can likely be ignored.
+
+
+In any case, max-max always comes back 0, and since everything else is below max, everything should be in an exponentiable range. The only problem is that the things that aren't the max value 
 
 \section{Patch 3 - Fix how the .Bmat file is written}
 
