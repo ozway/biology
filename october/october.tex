@@ -300,12 +300,20 @@ By changing my values in config.r so that the code never checks for convergence 
 \end{itemize}
 
 
-\subsubsection{Graph scale vs ln(phi)}
+\subsubsection{Graph scale vs logprob(phi)}
 
-\includegraphics[width=0.5\textwidth]{data/S_Phi-vs-lnPhi-RocEcoli-1000.png}
-\includegraphics[width=0.5\textwidth]{data/S_Phi-vs-lnPhi-RocYeast-1000.png}
-\includegraphics[width=0.5\textwidth]{data/S_Phi-vs-lnPhi-NseEcoli-1000.png}
-\includegraphics[width=0.5\textwidth]{data/S_Phi-vs-lnPhi-NseYeast-1000.png}
+These graphs from October 24th fall under the same accident described in the following section. They are the log probabilities of accepting a proposed phi value, NOT the proposed phi values.
+This will be mended.
+
+The graphs are still included in the data folder under the name 
+\begin{verbatim}
+data/S_phi-vs-lpPhi-<Model><Genome>-1000.png
+\end{verbatim}
+
+%\includegraphics[width=0.5\textwidth]{data/S_Phi-vs-lpPhi-RocEcoli-1000.png}
+%\includegraphics[width=0.5\textwidth]{data/S_Phi-vs-lpPhi-RocYeast-1000.png}
+%\includegraphics[width=0.5\textwidth]{data/S_Phi-vs-lpPhi-NseEcoli-1000.png}
+%\includegraphics[width=0.5\textwidth]{data/S_Phi-vs-lpPhi-NseYeast-1000.png}
 
 
 
@@ -313,10 +321,19 @@ By changing my values in config.r so that the code never checks for convergence 
 \newpage
 \subsection{Look at (Current State - Proposed Phi)}
 
-\includegraphics[width=0.5\textwidth]{data/oct27-RE-Curr-Prop.png}
-\includegraphics[width=0.5\textwidth]{data/oct27-RY-Curr-Prop.png}
-\includegraphics[width=0.5\textwidth]{data/oct27-NE-Curr-Prop.png}
-\includegraphics[width=0.5\textwidth]{data/oct27-NY-Curr-Prop.png}
+First runs, I subtracted the log probability of the proposed state from the log probability of the current state. This was a mistake, I should have been subtracting the log(proposed phi) from log(current phi). This error has been corrected. 
+
+These graphs are still in the data folder, under the name 
+\begin{verbatim}
+data/oct27-<Model><Genome>-lpCurr-lpProp.png
+\end{verbatim}
+Where model is R for ROC or N for NSE, and genome is E for Ecoli or Y for Yeast.
+
+%\includegraphics[width=0.5\textwidth]{data/oct27-RE-lpCurr-lpProp.png}
+%\includegraphics[width=0.5\textwidth]{data/oct27-RY-lpCurr-lpProp.png}
+
+%\includegraphics[width=0.5\textwidth]{data/oct27-NE-lpCurr-lpProp.png}
+%\includegraphics[width=0.5\textwidth]{data/oct27-NY-lpCurr-lpProp.png}
 
 
 
