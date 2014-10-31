@@ -302,7 +302,7 @@ By changing my values in config.r so that the code never checks for convergence 
 
 \subsubsection{Graph scale vs logprob(phi)}
 
-These graphs from October 24th fall under the same accident described in the following section. They are the log probabilities of accepting a proposed phi value, NOT the proposed phi values.
+The graphs from October 24th fall under the same accident described in the following section. They are the log probabilities of accepting a proposed phi value, NOT the proposed phi values.
 This will be mended.
 
 The graphs are still included in the data folder under the name 
@@ -335,6 +335,21 @@ Where model is R for ROC or N for NSE, and genome is E for Ecoli or Y for Yeast.
 %\includegraphics[width=0.5\textwidth]{data/oct27-NE-lpCurr-lpProp.png}
 %\includegraphics[width=0.5\textwidth]{data/oct27-NY-lpCurr-lpProp.png}
 
+
+\newpage
+\subsection{Analyse Successful NSE Yeast Run}
+
+NSE Ecoli also ran after the patch, but the estimated phi versus the 'true' phi values had a negative correlation. We're focusing on the NSE Yeast for now, to see how things are running.
+
+\includepdf[pages={1}]{data/oct31_CUB_est_bin_NseYeast.pdf}
+\includepdf[pages={1}]{data/oct31_CUB_obs_bin_NseYeast.pdf}
+\includepdf[pages={1}]{data/oct31_deltaeta_NseYeast.pdf}
+\includepdf[pages={1}]{data/oct31_expPhi_trace_NseYeast.pdf}
+\includepdf[pages={1}]{data/oct31_histogram_NseYeast.pdf}
+\includepdf[pages={1}]{data/oct31_logmu_NseYeast.pdf}
+\includepdf[pages={1}]{data/oct31_pMat_trace_NseYeast.pdf}
+\includepdf[pages={1}]{data/oct31_results_NseYeast.pdf}
+\includepdf[pages={1}]{data/oct31_vs_obs_phi_NseYeast.pdf}
 
 
 \newpage
@@ -450,7 +465,9 @@ tmp.phi:reu13.df.aa$Pos,-6.65911530134893e-05,1.09884115801929e-05
 \end{verbatim}
 
 
-I'm fairly sure that this is some part of the code that is just getting the names of the codons wrong, however, I can't be sure. If deprecated part of the NSE code is reading the data structure incorrectly, then anything is possible. I want to fix this at one point
+I'm fairly sure that this is some part of the code that is just getting the names of the codons wrong, however, I can't be sure. If deprecated part of the NSE code is reading the data structure incorrectly, then anything is possible. I want to fix this at one point.
+
+10/31 update: I was right, the problem is just in cedric.mapBMatNames.r, he only attempts to write b.Mat names for the ROC model. For now, I've just copypasted the same naming functions from the roc model for the NSE model. I think if I use the browser to check out those values, I'll be okay.
 
 
 
