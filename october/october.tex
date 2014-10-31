@@ -409,7 +409,7 @@ If further testing confirms this, I may revert the change, giving Wei-Chen's cod
 More problematic is that this still doesn't fix the important problem, values going to NaN causing the acceptance step to crash.
 
 
-\subsection{Patch 2a - Everything-max\_exp}
+\subsubsection{Patch 2a - Everything-max\_exp}
 
 Subtract out max\_exp from everything, all the time.
 Definitely forces everything $<=$ 0;
@@ -430,7 +430,7 @@ Values seem to be going up and down to nearby values such that max-value is a su
 
 In any case, max-max always comes back 0, and since everything else is below max, everything should be in an exponentiable range. The only problem is that the things that aren't the max value 
 
-\section{Patch 3 - Fix how the .Bmat file is written}
+\subsubsection{Patch 3 - Fix how the .Bmat file is written}
 
 One concern that I have is that the bmat files are being badly written for the NSE model. They should look like 
 
@@ -474,7 +474,14 @@ I'm fairly sure that this is some part of the code that is just getting the name
 
 \section{Goals for next Month}
 \begin{enumerate}
-\item Future Goal
+\item Use Preston's Simulated Yeast, compare to REU yeast 
+
+look for estimated $\approx$ 4*true
+\item Parallelize the Code 
+
+mclapply, getOption("mc.cores")?
+\item Wei Chen's Yeast / Real Yeast Genome
+\item Generate my own simulated yeast, using a reverse engineered cubfits
 \end{enumerate}
 
 
