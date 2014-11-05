@@ -1,0 +1,155 @@
+\input{../header.tex}
+
+\title{Work Log for November}
+\author{Logan Brown}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\newpage
+
+
+\section{Goals for the Month}
+As of October 31st
+\begin{enumerate}
+\item Use Preston's Simulated Yeast, compare to REU yeast
+
+look for estimated $\approx$ 4*true
+\item Parallelize the Code
+
+mclapply, getOption(``mc.cores")?
+\item Wei Chen's Yeast / Real Yeast Genome
+\item Generate my own simulated yeast, using a reverse engineered cubfits
+\end{enumerate}
+
+%Paste output from writeGoals
+\section{Progress/Notes}
+
+\subsection{Use Preston's Simulated Yeast, compare to REU yeast}
+
+Here are the results from Preston's simulated yeast...
+
+Notice that the $\Delta\omega$ values are not off by that $\approx4$ factor. We got a pretty good correlation on the log$\mu$ values, but the $\phi$ is pretty lousy, and the $\omega$ values leave something to be desired.
+
+\includepdf[pages={1}]{data/1105_codonParameters_8core.pdf}
+\includepdf[pages={1}]{data/1105_CUB_est_bin_8core.pdf}
+\includepdf[pages={1}]{data/1105_CUB_obs_bin_8core.pdf}
+\includepdf[pages={1}]{data/1105_deltaeta_8core.pdf}
+\includepdf[pages={1}]{data/1105_expPhi_trace_8core.pdf}
+\includepdf[pages={1}]{data/1105_histogram_8core.pdf}
+\includepdf[pages={1}]{data/1105_logmu_8core.pdf}
+\includepdf[pages={1}]{data/1105_pMat_trace_8core.pdf}
+\includepdf[pages={1}]{data/1105_vs_obs_phi_8core.pdf}
+
+Note how different the $\Delta\omega$ values are between Preston's yeast genome and the REU students' yeast genome.
+
+\includepdf[pages={1}]{data/1105_sidebyside.pdf}
+
+
+\subsection{Visualization}
+
+\subsubsection{'true' values vs simulated values}
+
+Changes have been added to visualize.r, based on other plotting functions.
+
+I've added confidence intervals (the scale of the interval can bet set in visualize.r). Cedric didn't have any functions to do so, but I was able to apply the "plotrix" package. I've also installed that package to "/home/lbrown/cubfits/Dependencies/plotrix". Everyone else should have permissions on that directory, in case someone wants to use my edited visualize.r function.
+
+
+
+
+\subsection{Parallelize the Code}
+
+\subsubsection{getOption(``mc.cores")}
+How to set the number of cores for an mclapply call? mclapply's default number of cores is getOption(``mc.cores",2L);
+
+getOption(``(option)", (value)) returns the value previously set to that (option), or otherwise it returns (value). mc.cores is not set by default. So first, set option(``mc.cores"=Number\_of\_Cores). Then mclapply should correctly get the number of cores.
+
+\subsubsection{Timing}
+
+As expected, we get diminshing returns on adding additional processors
+
+\includegraphics[width=0.5\textwidth]{data/1105runtimes.png}
+\includegraphics[width=0.5\textwidth]{data/1105timingCostBenefit.png}
+
+
+\subsection{Add (a1-a2) as a parameter}
+
+In the code, when the posterior probability of a codon is calculated, instead of calculating
+
+\[
+\mbox{Pr}(c_i|\phi,i)
+=
+\frac{
+\mbox{exp}[\mbox{ln}
++ \omega_i(a_1-a_2)y_1
++ \omega_ia_2y_1 i
+]
+}{
+\mbox{exp}[\mbox{ln}
+\sum_{u=1}^m
+\mbox{exp}[\mbox{ln}
++ \omega_i(a_1-a_2)y_1
++ \omega_ia_2y_1 i
+]
+}
+\]
+
+Wei Chen calculates
+
+\[
+\mbox{Pr}(c_i|\phi,i)
+=
+\frac{
+\mbox{exp}[\mbox{ln}
+%+ \omega_i(a_1-a_2)y_1
+- \omega_i\phi i
+]
+}{
+\mbox{exp}[\mbox{ln}
+\sum_{u=1}^m
+\mbox{exp}[\mbox{ln}
+%+ \omega_i(a_1-a_2)y_1
+- \omega_i\phi i
+]
+}
+\]
+
+This was done for a number of reasons. The $y_1$ term is just the aggregate of the effective population, $\phi$, and a scaling term $-q$. Also, the assumption was that $a_1 \approx a_2 = 4$ATP.
+To better account for the parameters of the model, we're going to add another parameter called $\Delta a_{12} = (a_1 - a_2)$, and use
+
+\[
+\mbox{Pr}(c_i|\phi,i)
+=
+\frac{
+\mbox{exp}[\mbox{ln}
+- \omega_i(\Delta a_{12})\phi
+- 4\omega_i\phi i
+]
+}{
+\mbox{exp}[\mbox{ln}
+\sum_{u=1}^m
+\mbox{exp}[\mbox{ln}
+- \omega_i(\Delta a_{12})\phi
+- 4\omega_i\phi i
+]
+}
+\]
+
+The math part of the change takes place in my.logdmultinomCodOne.r, adding an extra row to xm and multiplying $\omega\phi\Delta a_{12}$, which is baa[2]*tmp.phi*(new parameter)
+
+\subsection{Wei Chen's Yeast / Real Yeast Genome}
+
+\subsection{Generate my own simulated yeast, using a reverse engineered cubfits}
+
+
+
+\section{Goals for next Month}
+\begin{enumerate}
+\item Future Goal
+\end{enumerate}
+
+
+\end{document} %End of day document, REMOVE
