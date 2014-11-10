@@ -48,6 +48,26 @@ Note how different the $\Delta\omega$ values are between Preston's yeast genome 
 
 \includepdf[pages={1}]{data/1105_sidebyside.pdf}
 
+\subsubsection{Longer Run?}
+
+A longer run creates some interesting results. I did a run that used 7500 samples instead of 750 (which, since I'm thinning by 10, it's actually 75,000 proposals).
+
+Here's the results (Large run is on the left, small run is on the right)
+
+\includegraphics[width=0.5\textwidth]{data/mu_largerun.png}
+\includegraphics[width=0.5\textwidth]{data/mu_smallrun.png}
+
+\includegraphics[width=0.5\textwidth]{data/omega_largerun.png}
+\includegraphics[width=0.5\textwidth]{data/omega_smallrun.png}
+
+\includegraphics[width=0.5\textwidth]{data/phi_largerun.png}
+\includegraphics[width=0.5\textwidth]{data/phi_smallrun.png}
+
+\includegraphics[width=0.5\textwidth]{data/ephi_largerun.png}
+\includegraphics[width=0.5\textwidth]{data/ephi_smallrun.png}
+
+The most relevant thing in my opinion is the E($\phi$) graphs. E($\phi$) should hover around 1. in the small run, it leapt up to 3, and I was concerned this was an inherent problem in the code. But 
+
 
 \subsection{Visualization}
 
@@ -83,14 +103,13 @@ In the code, when the posterior probability of a codon is calculated, instead of
 \mbox{Pr}(c_i|\phi,i)
 =
 \frac{
-\mbox{exp}[\mbox{ln}
+\mbox{exp}[\mbox{M}_i
 + \omega_i(a_1-a_2)y_1
 + \omega_ia_2y_1 i
 ]
 }{
-\mbox{exp}[\mbox{ln}
 \sum_{u=1}^m
-\mbox{exp}[\mbox{ln}
+\mbox{exp}[\mbox{M}_i
 + \omega_i(a_1-a_2)y_1
 + \omega_ia_2y_1 i
 ]
@@ -103,14 +122,13 @@ Wei Chen calculates
 \mbox{Pr}(c_i|\phi,i)
 =
 \frac{
-\mbox{exp}[\mbox{ln}
+\mbox{exp}[\mbox{M}_i
 %+ \omega_i(a_1-a_2)y_1
 - \omega_i\phi i
 ]
 }{
-\mbox{exp}[\mbox{ln}
 \sum_{u=1}^m
-\mbox{exp}[\mbox{ln}
+\mbox{exp}[\mbox{M}_i
 %+ \omega_i(a_1-a_2)y_1
 - \omega_i\phi i
 ]
@@ -139,6 +157,15 @@ To better account for the parameters of the model, we're going to add another pa
 \]
 
 The math part of the change takes place in my.logdmultinomCodOne.r, adding an extra row to xm and multiplying $\omega\phi\Delta a_{12}$, which is baa[2]*tmp.phi*(new parameter)
+
+\subsection{Move to Newton}
+
+Newton uses R 3.0.1, all my dependencies were build under 3.1.1. Newton HAS R 3.1.0, but not 3.1.1.
+
+
+\subsection{Wrong Names}
+
+It's not just a problem in the chain\$b.Mat data. It's in the my.fitmultinomOne.r
 
 \subsection{Wei Chen's Yeast / Real Yeast Genome}
 
