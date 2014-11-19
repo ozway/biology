@@ -66,7 +66,28 @@ Here's the results (Large run is on the left, small run is on the right)
 \includegraphics[width=0.5\textwidth]{data/ephi_largerun.png}
 \includegraphics[width=0.5\textwidth]{data/ephi_smallrun.png}
 
-The most relevant thing in my opinion is the E($\phi$) graphs. E($\phi$) should hover around 1. in the small run, it leapt up to 3, and I was concerned this was an inherent problem in the code. But 
+The most relevant thing in my opinion is the E($\phi$) graphs. E($\phi$) should hover around 1. in the small run, it leapt up to 3, and I was concerned this was an inherent problem in the code. But it appears that the model simply hadn't converged.
+
+\subsection{Other Genomes}
+
+\subsubsection{Entire Preston's Yeast}
+
+I fixed an error in the visualize.r results by using the entire genome as the input, and letting the visualize function sort out what values belonged to who. This caused my $R^2$ value to jump from .02 to .5, a huge improvement.
+
+Because of this, I'm doing a cubfits run with the entire preston's yeast genome, to see how that affecst the results.
+
+\subsubsection{Brewer's Yeast}
+The yeast genome used for the paper, the git repository is 
+\begin{verbatim}
+/export/home/semppr/gitrepos/wcchen/logistic_analysis.git/
+\end{verbatim}
+
+The exported files can be found in 
+
+\begin{verbatim}
+/home/lbrown/logistic_analysis/p01-paper
+\end{verbatim}
+
 
 
 \subsection{Visualization}
@@ -78,6 +99,13 @@ Changes have been added to visualize.r, based on other plotting functions.
 I've added confidence intervals (the scale of the interval can bet set in visualize.r). Cedric didn't have any functions to do so, but I was able to apply the "plotrix" package. I've also installed that package to "/home/lbrown/cubfits/Dependencies/plotrix". Everyone else should have permissions on that directory, in case someone wants to use my edited visualize.r function.
 
 
+\subsubsection{Fix plotCUB?}
+
+The plotCUB function right now is calculated based on the ROC model. For the estimated and observed bias, the lines do not line up with the means and confidence intervals.
+
+CONFIRMED.
+
+plotCUB generates the line (called predict.roc) using the prop.model.roc function. It seems to be based on my.logdmultinomCodOne.r. I've made the appropriate changes. By correctly using the $\Delta\omega$ values as $\Delta\omega$ (and not $\Delta\eta$), and also multiplying through by the mean position of the amino acid, we actually see a Codon Usage Bias!
 
 
 \subsection{Parallelize the Code}
@@ -95,7 +123,9 @@ As expected, we get diminshing returns on adding additional processors
 \includegraphics[width=0.5\textwidth]{data/1105timingCostBenefit.png}
 
 
-\subsection{Add (a1-a2) as a parameter}
+\subsection{Change probability calculation}
+
+Our results seem to indicate that the cost of a nonsense error is not high enough. The actual codon usage bias is not very high until you get to very high values of Phi. This doesn't match what we actually see.
 
 In the code, when the posterior probability of a codon is calculated, instead of calculating
 
@@ -109,9 +139,9 @@ In the code, when the posterior probability of a codon is calculated, instead of
 ]
 }{
 \sum_{u=1}^m
-\mbox{exp}[\mbox{M}_i
-+ \omega_i(a_1-a_2)y_1
-+ \omega_ia_2y_1 i
+\mbox{exp}[\mbox{M}_u
++ \omega_u(a_1-a_2)y_1
++ \omega_ua_2y_1 i
 ]
 }
 \]
@@ -128,35 +158,71 @@ Wei Chen calculates
 ]
 }{
 \sum_{u=1}^m
-\mbox{exp}[\mbox{M}_i
-%+ \omega_i(a_1-a_2)y_1
-- \omega_i\phi i
+\mbox{exp}[\mbox{M}_u
+%+ \omega_u(a_1-a_2)y_1
+- \omega_u\phi i
 ]
 }
 \]
 
 This was done for a number of reasons. The $y_1$ term is just the aggregate of the effective population, $\phi$, and a scaling term $-q$. Also, the assumption was that $a_1 \approx a_2 = 4$ATP.
-To better account for the parameters of the model, we're going to add another parameter called $\Delta a_{12} = (a_1 - a_2)$, and use
+
+\subsubsection{Adding $a_2$}
+
+So it appears that Wei Chen never accounted for the direct cost of codon addition in the model. Maybe he was counting on it being cancelled by the scaling term $q$? In any case, I changed my.logdmultinomCodOne.r from
+\begin{verbatim}
+  xm <- matrix(cbind(1, tmp.phi * reu13.df.aa$Pos), ncol = 2)
+\end{verbatim}
+
+to
+
+\begin{verbatim}
+  xm <- matrix(cbind(1, 4 * tmp.phi * reu13.df.aa$Pos), ncol = 2)
+\end{verbatim}
+
+Since $a_2\approx4$.
+
+Then xm\%*\% baamat should be
+$
+\mbox{M}_i- 4\omega_i\phi i
+\approx
+\mbox{M}_i- a_2\omega_i\phi i
+$
+As intended.
+
+
+Implementing the change seemed to have no significant effect on the model, with Preston's Yeast or the REU Yeast. The results of the former are in cubfits/misc/results/np/11-10/*4ATP.pdf, and the latter are cubfits/misc/results/ny/11-10/*4ATP.pdf
+
+This is troubling. I'm subtracting out an additional $3\omega\phi * position$ from each mutation bias, and I'm seeing very little results in actual codon usage bias. I checked the calculations in the browser, and it's accurate. 
+
+\subsubsection{$\Delta a_{1,2}$}
+
+To better account for the parameters of the model, we're going to add another parameter called $\Delta a_{1,2} = (a_1 - a_2)$, and use
 
 \[
 \mbox{Pr}(c_i|\phi,i)
 =
 \frac{
-\mbox{exp}[\mbox{ln}
-- \omega_i(\Delta a_{12})\phi
+\mbox{exp}[\mbox{M}_i
+- \omega_i(\Delta a_{1,2})\phi
 - 4\omega_i\phi i
 ]
 }{
-\mbox{exp}[\mbox{ln}
 \sum_{u=1}^m
-\mbox{exp}[\mbox{ln}
-- \omega_i(\Delta a_{12})\phi
-- 4\omega_i\phi i
+\mbox{exp}[\mbox{M}_u
+- \omega_u(\Delta a_{1,2})\phi
+- 4\omega_u\phi i
 ]
 }
 \]
 
-The math part of the change takes place in my.logdmultinomCodOne.r, adding an extra row to xm and multiplying $\omega\phi\Delta a_{12}$, which is baa[2]*tmp.phi*(new parameter)
+The math part of the change takes place in my.logdmultinomCodOne.r, adding an extra row to xm and multiplying $\omega\phi\Delta a_{1,2}$, which is baa[2]*tmp.phi*(new parameter)
+
+\subsubsection{How to set $\Delta a_{1,2}$}
+
+Mike suggests a small stepsize, but the big question is, when to we increase or decrease $\Delta a_{1,2}$?
+
+I could add it to the baa matrix, and set it using the same vglm call in myfitMulitnomialOne.r that fits the M and $\omega$ values, but then it would be different for each amino acid. Of course, I could do that, and then set all of them equal to the (max/min/mean/median) value for $\Delta a_{1,2}$, but is that a bad idea? Also, this would make our VGLM call take longer, and it would disrupt our ability to fit the parameters we are already fitting. Those parameters would also be fit relative to an AA-specific $\Delta a_{1,2}$, even though $\Delta a_{1,2}$ would not be AA-specific.
 
 \subsection{Move to Newton}
 
