@@ -34,15 +34,20 @@ Here are the results from Preston's simulated yeast...
 
 Notice that the $\Delta\omega$ values are not off by that $\approx4$ factor. We got a pretty good correlation on the log$\mu$ values, but the $\phi$ is pretty lousy, and the $\omega$ values leave something to be desired.
 
-\includepdf[pages={1}]{data/1105_codonParameters_8core.pdf}
-\includepdf[pages={1}]{data/1105_CUB_est_bin_8core.pdf}
-\includepdf[pages={1}]{data/1105_CUB_obs_bin_8core.pdf}
-\includepdf[pages={1}]{data/1105_deltaeta_8core.pdf}
-\includepdf[pages={1}]{data/1105_expPhi_trace_8core.pdf}
-\includepdf[pages={1}]{data/1105_histogram_8core.pdf}
-\includepdf[pages={1}]{data/1105_logmu_8core.pdf}
-\includepdf[pages={1}]{data/1105_pMat_trace_8core.pdf}
-\includepdf[pages={1}]{data/1105_vs_obs_phi_8core.pdf}
+%\includepdf[pages={1}]{data/1105_codonParameters_8core.pdf}
+%\includepdf[pages={1}]{data/1105_CUB_est_bin_8core.pdf}
+%\includepdf[pages={1}]{data/1105_CUB_obs_bin_8core.pdf}
+%\includepdf[pages={1}]{data/1105_deltaeta_8core.pdf}
+%\includepdf[pages={1}]{data/1105_expPhi_trace_8core.pdf}
+%\includepdf[pages={1}]{data/1105_histogram_8core.pdf}
+%\includepdf[pages={1}]{data/1105_logmu_8core.pdf}
+%\includepdf[pages={1}]{data/1105_pMat_trace_8core.pdf}
+%\includepdf[pages={1}]{data/1105_vs_obs_phi_8core.pdf}
+
+\begin{verbatim}
+{{ REMOVED FOR BREVITY. SEE data/1105*.pdf }}
+\end{verbatim}
+
 
 Note how different the $\Delta\omega$ values are between Preston's yeast genome and the REU students' yeast genome.
 
@@ -115,23 +120,9 @@ First, it will have the $\phi$ value comparison, then the codon usage bias for t
 \includepdf[pages={1}]{data/fullBrewerYeast-CUBestPhi.pdf}
 
 
+\subsection{Generate my own simulated yeast, using a reverse engineered cubfits}
 
-\subsection{Visualization}
-
-\subsubsection{'true' values vs simulated values}
-
-Changes have been added to visualize.r, based on other plotting functions.
-
-I've added confidence intervals (the scale of the interval can bet set in visualize.r). Cedric didn't have any functions to do so, but I was able to apply the "plotrix" package. I've also installed that package to "/home/lbrown/cubfits/Dependencies/plotrix". Everyone else should have permissions on that directory, in case someone wants to use my edited visualize.r function.
-
-
-\subsubsection{Fix plotCUB?}
-
-The plotCUB function right now is calculated based on the ROC model. For the estimated and observed bias, the lines do not line up with the means and confidence intervals.
-
-CONFIRMED.
-
-plotCUB generates the line (called predict.roc) using the prop.model.roc function. It seems to be based on my.logdmultinomCodOne.r. I've made the appropriate changes. By correctly using the $\Delta\omega$ values as $\Delta\omega$ (and not $\Delta\eta$), and also multiplying through by the mean position of the amino acid, we actually see a Codon Usage Bias!
+Still an interest, but it's fallen down the priorities. The existing genomes seem to do fine.
 
 
 \subsection{Parallelize the Code}
@@ -259,10 +250,49 @@ Newton uses R 3.0.1, all my dependencies were build under 3.1.1. Newton HAS R 3.
 
 It's not just a problem in the chain\$b.Mat data. It's in the my.fitmultinomOne.r
 
-\subsection{Wei Chen's Yeast / Real Yeast Genome}
 
-\subsection{Generate my own simulated yeast, using a reverse engineered cubfits}
+\subsection{Visualization}
 
+\subsubsection{'true' values vs simulated values}
+
+Changes have been added to visualize.r, based on other plotting functions.
+
+I've added confidence intervals (the scale of the interval can bet set in visualize.r). Cedric didn't have any functions to do so, but I was able to apply the "plotrix" package. I've also installed that package to "/home/lbrown/cubfits/Dependencies/plotrix". Everyone else should have permissions on that directory, in case someone wants to use my edited visualize.r function.
+
+
+\subsubsection{Fix plotCUB}
+
+The plotCUB function right now is calculated based on the ROC model. For the estimated and observed bias, the lines do not line up with the means and confidence intervals.
+
+plotCUB generates the line (called predict.roc) using the prop.model.roc function. It seems to be based on my.logdmultinomCodOne.r. I've made the appropriate changes. By correctly using the $\Delta\omega$ values as $\Delta\omega$ (and not $\Delta\eta$), and also multiplying through by the mean position of the amino acid, we actually see a Codon Usage Bias!
+
+I've made the appropriate changes in plotCUB so that it can take $a_2$ and $\Delta a_{1,2}$ as arguments, and actually use them in predicing the CUB for the NSE model. Right now, it takes the position as the mean position of that amino acid, which for S. Cerivisiae tends to be $\approx$350. 
+
+The problem should be fixed, and also, shouldn't interfere with running the ROC model.
+
+
+\subsection{logMu flip}
+
+So as a result of the deltaEta switch, the code was multiplying the $\Delta log(\mu)$ values by -1. As I've described above in the $x \%*\% baamat$ calculation, it actually ended up doing negative mu, and fitting that. To the credit of the model, it was actually just fitting the opposite. Previously, I would just flip the result before plotting it.
+
+I've gone into the my.logdmultinomCodOne.nse function and flipped the $\Delta log(\mu)$ back at the codon probability calculation. The result looks nice so far.
+
+To illustrate, compare these two runs:
+
+\begin{figure}[h!]
+\caption{The first figure is a run before the logMu flip. The second is after. The second image has very small changes in $\Delta log(\mu)$, which looks like a more convincing result to me. Look especially at Glycine, at the purple line (codon GGG). Before the logMu flip, it started at about -1.2, went to 1.2, then converged around 1. After the flip, it started around -1.2, and converged around -1.}
+\begin{tabular}{c|c}
+\includegraphics[width=0.48\textwidth]{data/logmu-nomflip.png}
+&
+\includegraphics[width=0.48\textwidth]{data/logmu-mflip.png}
+\end{tabular}
+\end{figure}
+
+
+
+\subsection{Problematic Codons}
+
+\includepdf[pages={1}]{data/omegastudy-1117pyeast.pdf}
 
 
 \section{Goals for next Month}
