@@ -291,13 +291,39 @@ To illustrate, compare these two runs:
 
 
 \subsection{Problematic Codons}
+There are a few codons that are consistently problematic between different runs.
 
-\includepdf[pages={1}]{data/omegastudy-1117pyeast.pdf}
+These are the codons such that $|\mbox{estimated}\omega - \mbox{true}\omega| > 0.001$
 
+\begin{verbatim}
+   AA Codon  'true' omega  estm. Omega Occurances out of occurance rank   % Error
+18  L   CTT  0.0024848544 0.0005788396      34288 268097          4 / 6 0.7670529
+23  P   CCG -0.0006384656 0.0009225759      14920 121562          4 / 4 2.4449891
+27  R   CGA  0.0003321017 0.0031227119       8543 124772          4 / 6 8.4028783
+29  R   CGG  0.0010087399 0.0026759348       5067 124772          6 / 6 1.6527501
+\end{verbatim}
+
+These are the codons such that $$\frac{|\mbox{estimated}\omega - \mbox{true}\omega|}{|\mbox{true}\omega|} > 4$$
+
+\begin{verbatim}
+   AA Codon  'true' omega  estm. Omega Occurances out of occurance rank  % Error
+9   G   GGC -5.892256e-05 0.0004492371      27742 140885          3 / 4 8.624195
+27  R   CGA  3.321017e-04 0.0031227119       8543 124772          4 / 6 8.402878
+\end{verbatim}
+
+
+\includepdf[pages={1}]{data/omegastudy-RawError-1117.pdf}
+\includepdf[pages={1}]{data/omegastudy-PercentError-1117.pdf}
+
+To me, it seems like the raw error is important. Percent error is a nice measure, but it unfairly picks out 'bad' values because they have small 'true' $\omega$ values.
 
 \section{Goals for next Month}
 \begin{enumerate}
-\item Future Goal
+\item Verify logMu Flip by larger runs
+\item Problematic Codons
+\item Is it worth it to adjust Delta a\_12?
+\item Fix Names
+\item Move to Newton?
 \end{enumerate}
 
 
