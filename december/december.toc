@@ -1,0 +1,9 @@
+\contentsline {section}{\numberline {1}Goals for the Month}{2}
+\contentsline {section}{\numberline {2}Progress/Notes}{2}
+\contentsline {subsection}{\numberline {2.1}Verify logMu Flip by larger runs}{2}
+\contentsline {subsection}{\numberline {2.2}Investigate Problematic Codons}{5}
+\contentsline {subsection}{\numberline {2.3}Generate a new Genome}{10}
+\contentsline {subsection}{\numberline {2.4}Is it worth it to adjust Delta a\_12?}{10}
+\contentsline {subsection}{\numberline {2.5}Fix Names}{10}
+\contentsline {subsection}{\numberline {2.6}Move to Newton?}{10}
+\contentsline {section}{\numberline {3}Goals for next Month}{10}

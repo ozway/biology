@@ -1,0 +1,91 @@
+\input{../header.tex}
+
+\title{Work Log for December}
+\author{Logan Brown}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\newpage
+
+
+\section{Goals for the Month}
+As of December 1st.
+%Paste output from writeGoals
+\begin{enumerate}
+\item Verify logMu Flip by larger runs
+\item Investigate Problematic Codons
+\item Is it worth it to adjust Delta a\_12?
+\item Fix Names
+\item Move to Newton?
+\end{enumerate}
+
+\section{Progress/Notes}
+
+\subsection{Verify logMu Flip by larger runs}
+Verified!
+
+Doing a run of 6000 steps is definitely long enough, especially if you look at the log likelihood trace (not included for brevity). The logMu looks a bit more convincing, and also,it improve the behavior of the hyperparameters like $\sigma_\epsilon$ and $\sigma_\phi$. For the first 300 or so samples, the model has to fit to the negative $log(\mu)$ value. To its credit, the model does so, but that's not good.
+
+\includepdf[pages={1}]{data/11-21-logmu-6000-1a2-Mflip.pdf}
+\includepdf[pages={1}]{data/11-24-logmu-6000-4a2-noMflip.pdf}
+
+\begin{figure}[h!]
+\caption{The left figure is a run before the logMu flip. The right is after. You can see that before fixing the logMu flip, the hyperparameters see a huge spike early on, which quickly subsides, while on the right, you simply see them increase at the beginning as the model begins to fit, then fall off slowly as the model converges.}
+\begin{tabular}{c|c}
+\includegraphics[width=0.48\textwidth]{data/11-24-hyperparameters-6000-4a2-noMflip.png}
+&
+\includegraphics[width=0.48\textwidth]{data/11-21-hyperparameters-6000-1a2-Mflip.png}
+\end{tabular}
+
+
+\end{figure}
+
+
+\subsection{Investigate Problematic Codons}
+
+One thing we were interested in looking at was comparing the problematic $\omega$ values to their problematic log$\mu$ values. Here's a mapping!
+
+Green Square: Leucine CTT
+
+Yellow Diamond: Proline CCG
+
+Blue Up Arrow: Arginine CGA
+
+Purple Down Arrow: Arginine CCG
+
+As we anticipated, higher nonsense error rates lead to lower mutation rates, and lower nonsense error rates lead to higher mutation rates. The magnitude is a bit off, the lowest mutation does not cause the highest nonsense errors.
+
+This was also reproduced when using different sections of the Yeast Genome. Here are 3 distinct sections of preston's simulated yeast (they share no genes in common) that produce similar results.
+
+\includepdf[pages={1}]{data/errormap.pdf}
+
+\includepdf[pages={1-3}]{data/sectionedOmegaStudy.pdf}
+
+
+\subsection{Generate a new Genome}
+
+DONE.
+
+By modifying preston's old code, I was able to create two new simulated genomes that used the same inputs as Preston's yeast, but are new and different.
+
+
+\subsection{Is it worth it to adjust Delta a\_12?}
+
+\subsection{Fix Names}
+
+\subsection{Move to Newton?}
+
+
+
+
+\section{Goals for next Month}
+\begin{enumerate}
+\item Future Goal
+\end{enumerate}
+
+
+\end{document} %End of day document, REMOVE
