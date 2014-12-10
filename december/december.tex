@@ -70,12 +70,41 @@ This was also reproduced when using different sections of the Yeast Genome. Here
 
 DONE.
 
-By modifying preston's old code, I was able to create two new simulated genomes that used the same inputs as Preston's yeast, but are new and different.
+\sout{By modifying preston's old code, I was able to create two new simulated genomes that used the same inputs as Preston's yeast, but are new and different.}
 
+\subsubsection{Fix the Code}
+
+Preston's code had a problem where the simulation was only updating the c\_index, but was never actually updating the codons used. Then, when writing the genome, it wrote out the codons used. The result was that the output was identical to the input, even when the input was nonsense.
+
+My fix uses a for loop to generate a character array of the correct codons, which it then converts to a factor and uses to replace the one in gene.list\$gene.dat\$codon
+
+If I work on this again in the future, I want to change the code so that the stop codon is no longer given index 99, so that I can actually mutate and translate the stop codon over
+
+These changes are also being committed to github in a repository forked from clandere.
+
+\subsubsection{Use same inputs as Preston}
+
+\subsubsection{Use reference codons from preston, and delta omega from run results}
 
 \subsection{Is it worth it to adjust Delta a\_12?}
 
 \subsection{Fix Names}
+
+May have fixed the names by doing the following in cedric.mapBMatNames.r
+
+\begin{verbatim}
+ if(model == "roc"){
+\end{verbatim}
+
+to
+
+\begin{verbatim}
+ if(model == "roc" || model == "nsef"){
+\end{verbatim}
+
+Luckily, the functions already exist to get the coefficients for the ROC, NSE and ROCandNSE models, so I didn't have to change anything (so far)
+
+\subsection{Speed up C code}
 
 \subsection{Move to Newton?}
 
