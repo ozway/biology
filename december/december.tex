@@ -106,6 +106,30 @@ Luckily, the functions already exist to get the coefficients for the ROC, NSE an
 
 \subsection{Speed up C code}
 
+I made the following change in stable\_exp.c
+
+\begin{verbatim}
+	for(k = 0; k < *K; k++){
+	       a_Z_normalized[k] -= max_exp;
+	}
+
+	for(k = 0; k < *K; k++){
+	        a_Z_normalized[k] = exp(a_Z_normalized[k]);
+	        *total_sum += a_Z_normalized[k];
+	}
+\end{verbatim}
+
+to
+
+\begin{verbatim}
+	for(k = 0; k < *K; k++){
+	        a_Z_normalized[k] = exp(a_Z_normalized[k] - max_exp);
+	        *total_sum += a_Z_normalized[k];
+	}
+\end{verbatim}
+
+The actual time on these operations is quite small, but since it has to happen hundreds of thousands of times for each step, it may actually cause an impact. Who knows?
+
 \subsection{Move to Newton?}
 
 
