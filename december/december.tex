@@ -82,9 +82,9 @@ If I work on this again in the future, I want to change the code so that the sto
 
 These changes are also being committed to github in a repository forked from clandere.
 
-\subsubsection{Use same inputs as Preston}
+\subsubsection{Same inputs as Preston's Yeast}
 
-\subsubsection{Use reference codons from preston, and delta omega from run results}
+\subsubsection{Preston's reference codon values + deltaOmega from CUBFits}
 
 \subsection{Is it worth it to adjust Delta a\_12?}
 
@@ -130,11 +130,16 @@ to
 
 The actual time on these operations is quite small, but since it has to happen \sout{hundreds of thousands of times} 2.8 million times for each step, it may actually cause an impact. Who knows?
 
+~
+
 The actual time difference is hard to measure, apparently.
 
 I can measure it in microseconds, but the difference appears to be less than a microsecond, because it tends to come out as either a difference of 1 or 0 microseconds. There is a strange error where in the old version, the difference is 20 or more microseconds. If we give those credit, I seem to have reduced the run by between 1.4 and 5 microseconds. This doesn't sound like a lot, however, this code gets run millions of times for each cubfits run. Simulated yeast has 2.8 million codons, which means that this reduction would be 3.9 seconds less per proposal. Assuming 50,000 proposal states, that's 54 hours less. Which is quite unbelievable, since the runs don't even go that long.
 
 So, assuming distances greater than about 5 microseconds are unbelievable, we can extrapolate what the actual change is. By averaging the values less than 5 microseconds (mostly 0s and 1s), we can guess how much the change actually is in microseconds. Using conservative estimates, it looks to be about .05 microseconds. Assuming 2.8 million codons and 50,000 MCMC proposed states, that's still a difference of 2 hours per run. The actual difference could be closer to .1 microseconds, which would be 4 hours per run.
+
+These changes have been committed to my cubfits github, and a pull request to GilchristLab.
+
 
 \subsection{Move to Newton?}
 
