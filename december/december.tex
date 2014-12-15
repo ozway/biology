@@ -82,9 +82,7 @@ If I work on this again in the future, I want to change the code so that the sto
 
 These changes are also being committed to github in a repository forked from clandere.
 
-\subsubsection{Same inputs as Preston's Yeast}
-
-\subsubsection{Preston's reference codon values + deltaOmega from CUBFits}
+There was a further problem. A later change to the code made the code work with log probabilities, which caused my NSE probabilities to be 1 - exp(NSEpr), which were less than 1.
 
 \subsection{Is it worth it to adjust Delta a\_12?}
 
