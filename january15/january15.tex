@@ -18,7 +18,6 @@
 \item Generate new genomes
 \item Speed up NSE model
 \item Move to Newton
-
 \end{enumerate}
 
 \section{Progress/Notes}
@@ -29,7 +28,53 @@
 
 Now that the code actually updates the codons, not just the codon index, we can generate new genomes.
 
-yeast2.fasta is just redone Preston's yeast. moddedYeast.fasta uses the nse probabilities from CUBFits.
+\subsubsection{Potential Error -- Reading small chunks of the script as commands?}
+
+I've seen this type of error before, and I'm still confused by it.
+
+\begin{verbatim}
+lbrown@gauley:~/cubfits/preston$ tail test*
+==> test.ModOutput <==
+	Simulating YPR194C . . .
+	Simulating YPR196W . . .
+	Simulating YPR198W . . .
+	Simulating YPR199C . . .
+	Simulating YPR200C . . .
+	Simulating YPR201W . . .
+	Simulating YPR202W . . .
+	Simulating YPR203W . . .
+Error: unexpected ')' in "x.simulation.type = 'M')"
+Execution halted
+
+==> test.output <==
+	Simulating YPR194C . . .
+	Simulating YPR196W . . .
+	Simulating YPR198W . . .
+	Simulating YPR199C . . .
+	Simulating YPR200C . . .
+	Simulating YPR201W . . .
+	Simulating YPR202W . . .
+	Simulating YPR203W . . .
+Error: unexpected ')' in "sta)"
+Execution halted
+\end{verbatim}
+
+This is quite confusing. There are no problems in those lines, and the commands the error indicates don't... exist?
+
+My best judgement is that the first error is the tail chunk of
+\begin{verbatim}
+sim.genome <- simulate.data.all.genes(parallel='lapply', obs.genome = obs.genome, obs.phi = phi$obs, obs.codon.parms = codon.params$obs, obs.genome.parms = obs.genome.parms, BIS=4, GMT=0, MES=0, n.cores=4, aux.simulation.type = 'M')
+\end{verbatim}
+
+And the code is just trying to execute x.simulation.type = 'M') as a standalone command, which does produce the shown error. Similarly, for the second error, I think it's using the tail end of
+
+\begin{verbatim}
+write.fasta(sequences = sim.seqs, names = seq.ids, file.out = out.fasta)
+\end{verbatim}
+
+And just running sta) as a command, which produces the shown error.
+
+Google doesn't seem to show other people having this error. Is it just a problem with Rscript? RAM running out? (Doubtful, Gauley is powerful). Perhaps a problem with lapply/mclapply? One of the processes finishes early, and this... breaks the R interpreter?
 
 
 \subsection{Speed up NSE model}
