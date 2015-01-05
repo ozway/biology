@@ -27,12 +27,18 @@
 
 1/5: Fixed a small bug in the genome code.
 
-Now that the code actually updates the codons, not just the codon index, we should be able to generate real genomes.
+Now that the code actually updates the codons, not just the codon index, we can generate new genomes.
 
 yeast2.fasta is just redone Preston's yeast. moddedYeast.fasta uses the nse probabilities from CUBFits.
 
 
 \subsection{Speed up NSE model}
+
+\subsubsection{Move log into C?}
+
+Right now, the code exponentiates the values in the C code (to be normalized), then later, in the R code, calulates the logarithm of those values, to correct this. Since C code is generally faster than R code, I thought it may be worthwhile to move that calculation into the C code.
+
+I ran a quick test case (the code can be found in data/cLogTest.tar.gz), and it seems like making that change would save about 10 nanoseconds per gene. Our simulated yeast has 2.8 million genes, so it's only about a .3 second improvement per MCMC proposal. Basically, this change is too minor.
 
 \subsection{Move to Newton}
 
