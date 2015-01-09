@@ -76,6 +76,16 @@ And just running sta) as a command, which produces the shown error.
 
 Google doesn't seem to show other people having this error. Is it just a problem with Rscript? RAM running out? (Doubtful, Gauley is powerful). Perhaps a problem with lapply/mclapply? One of the processes finishes early, and this... breaks the R interpreter?
 
+I started using mclapply instead of lapply and the problem didn't happen, but I don't want to say that the problem has been 'fixed'.
+
+
+\subsubsection{Genome with no Omega}
+
+To debug the genome generation process, we want to look at some very simple genomes. One such genome would be one that is totally dominated by Mutation Bias, and see if the simulation correctly creates the gnome across all phi values.
+
+\subsubsection{Genome we can work out by hand}
+
+This genome would likely be structured so that each protein was a synonym of each other protein. Each gene would probably be one that only has two synonyms, and would only be about 9 amino acids long, and would have all the same amino acids in the same positions. We'd set the mutation bias to 0, and set the phi values to easily calculatable values. 
 
 \subsection{Speed up NSE model}
 
@@ -85,21 +95,49 @@ Right now, the code exponentiates the values in the C code (to be normalized), t
 
 I ran a quick test case (the code can be found in data/cLogTest.tar.gz), and it seems like making that change would save about 10 nanoseconds per gene. Our simulated yeast has 2.8 million genes, so it's only about a .3 second improvement per MCMC proposal. Basically, this change is too minor.
 
+\subsubsection{change from division to subtraction?}
+
+Using logarithm rules, we could subtract out ln(sum(exp)) instead of dividing the exponent by the sum of the exponents
+
 \subsection{Move to Newton}
 
 \subsubsection{How to Install Packages}
 
 \begin{verbatim}
-[Newton]$ export R_LIBS="/lustre/home/((user))/path_to_cubfits/dependencies"
+[Newton]$ export R_LIBS="$HOME/path_to_cubsrc/Dependencies"
 [Newton]$ R
-> install.packages('seqinr')
 > install.packages('doSNOW')
 > install.packages('coda')
+> install.packages('seqinr')
+> install.packages('EMCluster')
+> install.packages('VGAM')
+> install.packages('psych')
+> install.packages('getopt')
+> q("no")
 \end{verbatim}
 
-But now I can't get cubfits to USE those packages...
+\subsubsection{How to Install CUBfits}
 
+\begin{verbatim}
+export R_LIBS_USER="$HOME/path_to_cubsrc/Dependencies/"
+R CMD build cubfits --no-build-vignettes --no-manual
+R CMD INSTALL cubfits_0.1-2.tar.gz --library=$HOME/cubfits
+\end{verbatim}
 
+\subsubsection{How to run CUBfits on Newton}
+
+Run 'qsub run.sge' in the cubmisc/R folder. It goes as follows 
+\begin{verbatim}
+[Newton:zeta00 R]$ cat run.sge
+#$ -N Cubfits
+#$ -q medium*
+#$ -cwd
+#$ -pe openmpi* 32
+#$ -v R_LIBS_USER=/lustre/home/lbrown60/cubsrc/Dependencies/:/lustre/home/lbrown60/cubfits
+
+echo $R_LIBS_USER
+nohup Rscript run_loganYeast.r
+\end{verbatim}
 
 \section{Goals for next Month}
 \begin{enumerate}
