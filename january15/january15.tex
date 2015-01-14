@@ -87,6 +87,8 @@ To debug the genome generation process, we want to look at some very simple geno
 
 This genome would likely be structured so that each protein was a synonym of each other protein. Each gene would probably be one that only has two synonyms, and would only be about 9 amino acids long, and would have all the same amino acids in the same positions. We'd set the mutation bias to 0, and set the phi values to easily calculatable values. 
 
+I've written a script to generate such a genome. It looks like it... works? At high Phi values (when the one with a lower NSE probability should dominate), we see a mix of the two, but at low phi values, we see mutation bias correctly dominating. But when we remove mutation bias... it actually looks like higher NSE probabilities are dominating. This is bad.
+
 \subsection{Speed up NSE model}
 
 \subsubsection{Move logarithm into C?}
